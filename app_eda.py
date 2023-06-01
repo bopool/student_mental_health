@@ -17,7 +17,7 @@ def run_app_eda() :
     # st.subheader('데이터 확인 및 전처리')
     df = pd.read_csv('data/Student_Mental_health.csv', encoding = 'ISO-8859-1')
 
-    if st.checkbox('데이터 프레임 보기') : 
+    if st.checkbox('데이터 확인') : 
         st.dataframe(df)
         st.write("데이터 정보를 확인하니 'Age' column만 실수형 데이터타입(float64)이고 나머지는 모두 object였다. 데이터 간의 상관관계를 확인하기 위해 데이터 전처리 작업을 진행한다.")
         # st.((df.info()))
@@ -33,8 +33,13 @@ def run_app_eda() :
             pd.to_datetime(df['Timestamp'], )
             df.sort_values('Timestamp', inplace= True) # 시간 값 통일하는 방법 확인하자. 
             st.write('• Object 타입인 Timestamp column값들을 datetime64[ns] 타입으로 변경, 데이터를 Timestamp 시간순으로 재정렬')
-            st.dataframe(df)
 
+            def draw_color_cell(x,color):
+                color = f'background-color:{color}'
+                return color
+            df_color1= df.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'Timestamp':'Timestamp'])
+            st.dataframe(df_color1)
+                     
             # 칼럼명을 보기 쉽게 다듬기 
             df.rename(columns={'Choose your gender':'Gender', 
                             'What is your course?':'Course', 
@@ -45,22 +50,26 @@ def run_app_eda() :
                             'Do you have Panic attack?':'Panic attack', 
                             'Did you seek any specialist for a treatment?':'M/H Treatment'}, inplace=True)
             st.write('• 칼럼명을 보기 쉽게 요약하기')
-            st.dataframe(df)
+            df_color2= df.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[0])
+            st.dataframe(df_color2)
 
             # 학년 정보의 표기를 통일해 준다. 
             df['S-Year'] = df['S-Year'].str.replace(' ', '')
             df['S-Year'] = df['S-Year'].str.title()
             st.write('• Year/year 등 학년 정보의 표기 통일하기 ')
-            st.dataframe(df)
+            df_color3= df.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'S-Year':'S-Year'])
+            st.dataframe(df_color3)
 
             #요일도 확인하여 넣어준다. 
             days = ['Mon', 'Tues', 'Weds', 'Thurs', 'Fri', 'Sat', 'Sun' ]
             df['Weekday'] = pd.to_datetime(df['Timestamp']).dt.weekday
             df['Weekday'] = df.apply(lambda x : days[x['Weekday']], axis = 1)
             st.write('• Timestamp에 찍힌 날짜의 요일 정보도 추가')
-            st.dataframe(df)
+            df_color4= df.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'Weekday':'Weekday'])
+            st.dataframe(df_color4)
 
-            st.write('주로 금요일에 설문조사에 응했으며, 월요일에도 다.')
+            # 
+            st.write('총 {}명 중 {}명이 금요일에 설문조사에 응했으며, 월요일에도 {}명이 응했다. 또한 {}명의 사람들이 일요일에 응했다. ')
             fig = plt.figure()
             sb.countplot(data= df, x='Weekday')
             st.pyplot(fig)

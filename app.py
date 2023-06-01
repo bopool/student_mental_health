@@ -6,9 +6,10 @@ from app_ml import run_app_ml
 
 
 def main():
+    img_url2 = 'img\smh_side_top.jpg'
+    st.sidebar.image(img_url2)
     title = '<div style="color:#006D64; font-size:44px; font-weight:900;">Student Mental Health</div>'
     st.markdown(title, unsafe_allow_html=True)
-
     menu = ['Introduce', 'EDA', 'ML']
     choice = st.sidebar.selectbox('', menu) # 세 개 중 하나를 선택하면 뭔가 작동해야 하니까 변수로 만들어 줌 
 
@@ -16,7 +17,7 @@ def main():
         run_app_home()
     elif choice == menu[1] :
         run_app_eda()
-        feature = '<div style="color:#666; font-size:15px; font-weight:300; padding:5px 10px 5px 10px;"><b style="color:#006D64; font-size:18px; font-weight:bold;">FEATURES</b></br>• Timestamp 입력한 시간</br>•  Choose your gender 성적정체성</br>•  Age 나이</br>•  What is your course? 전공</br>•  Your current year of Study 연차</br>•  What is your CGPA? 학업 성적</br>•  Marital status 혼인 여부</br>•  Do you have Depression? 우울 경험</br>•  Do you have Anxiety? 불안 경험</br>•  Do you have Panic attack? 공황발작 경험</br>•  Did you seek any specialist for a treatment? 진료경험</div>'
+        feature = '<div style="color:#666; font-size:15px; font-weight:300; padding:5px 10px 5px 10px;"><b style="color:#006D64; font-size:18px; font-weight:bold;">FEATURES</b></br>• Timestamp</br>•  Choose your gender (Gender)</br>•  Age</br>•  What is your course? (Course)</br>•  Your current year of Study (S-Year)</br>•  What is your CGPA? (CGPA)</br>•  Marital status</br>•  Do you have Depression? (Depression)</br>•  Do you have Anxiety? (Anxiety)</br>•  Do you have Panic attack? (Panic attack)</br>•  Did you seek any specialist for a treatment? (M/H Treatment)</div>'
         st.sidebar.markdown(feature, unsafe_allow_html=True)
     else : 
         run_app_ml()
