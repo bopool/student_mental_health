@@ -25,21 +25,29 @@ def run_app_eda() :
         line2 = '<div style="border-top:1px solid #ddd; width:100%; height:30px; margin-top:18px;"></div>'    
         st.markdown(line2, unsafe_allow_html=True)
 
+        def draw_color_cell(x,color):
+            color = f'background-color:{color}'
+            return color
+
+
         if st.checkbox('데이터 전처리') : 
             # 데이터 다듬기 
-            # 날짜 별로 정렬해주기 
-            # object type이었던 Timestamp를 datetime64[ns] type으로 변경, 시간으로 인식하도록 처리함. 
-            # 기록 시간별로 다시 정렬해 줌. 
-            pd.to_datetime(df['Timestamp'], )
-            df.sort_values('Timestamp', inplace= True) # 시간 값 통일하는 방법 확인하자. 
-            st.write('• Object 타입인 Timestamp column값들을 datetime64[ns] 타입으로 변경, 데이터를 Timestamp 시간순으로 재정렬')
-
-            def draw_color_cell(x,color):
-                color = f'background-color:{color}'
-                return color
-            df_color1= df.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'Timestamp':'Timestamp'])
-            st.dataframe(df_color1)
-                     
+            
+            # 결측치 제거
+            df_info = pd.DataFrame({'Column': df.columns,
+                                    'Data Type': df.dtypes,
+                                    'Non-Null Count': df.count()}, )
+            df_info = df_info.reset_index(drop=True)
+            df_isna_sum = df.isna().sum()
+            df_isna_frame = df_isna_sum.to_frame()
+            df_isna_frame.columns = ['NA']
+            df_isna_frame['Column']= df.columns
+            df_info_isna = df_info.merge(df_isna_frame, on='Column', how='left')
+            st.write('▼ '+'데이터 정보를 확인하고, Age 컬럼에서 결측치 1행 삭제')
+            st.text("<class 'pandas.core.frame.DataFrame'>\nRangeIndex: 101 entries, 0 to 100\ndtypes: float64(1), object(10)\nmemory usage: 8.8+ KB\nData columns (total 11 columns):")
+            df_info_isna1 = df_info_isna.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[2,'NA'])
+            st.dataframe(df_info_isna1)
+  
             # 칼럼명을 보기 쉽게 다듬기 
             df.rename(columns={'Choose your gender':'Gender', 
                             'What is your course?':'Course', 
@@ -49,27 +57,48 @@ def run_app_eda() :
                             'Do you have Anxiety?':'Anxiety', 
                             'Do you have Panic attack?':'Panic attack', 
                             'Did you seek any specialist for a treatment?':'M/H Treatment'}, inplace=True)
-            st.write('• 칼럼명을 보기 쉽게 요약하기')
-            df_color2= df.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[0])
+            st.write('▼ '+'칼럼명을 보기 쉽게 요약하기')
+            title_change = pd.DataFrame()
+            df_color2= title_change.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'변경 후':'변경 후'])
             st.dataframe(df_color2)
 
             # 학년 정보의 표기를 통일해 준다. 
             df['S-Year'] = df['S-Year'].str.replace(' ', '')
             df['S-Year'] = df['S-Year'].str.title()
-            st.write('• Year/year 등 학년 정보의 표기 통일하기 ')
+            st.write('▼ '+'Year/year 등 학년 정보의 표기 통일하기 ')
             df_color3= df.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'S-Year':'S-Year'])
             st.dataframe(df_color3)
 
+            # 날짜 별로 정렬해주기 
+            # object type이었던 Timestamp를 datetime64[ns] type으로 변경, 시간으로 인식하도록 처리함. 
+            # 기록 시간별로 다시 정렬해 줌. 
+            df['Timestamp'] = pd.Series(pd.to_datetime(df['Timestamp']))
+            df['Timestamp'] = pd.Series(df['Timestamp']).astype('datetime64')
+            df.sort_values('Timestamp', inplace= True, ascending=False) # 시간 값 통일하는 방법 확인하자. 
+            st.write('▼ '+'Object 타입인 Timestamp column값들을 datetime64[ns] 타입으로 변경, 데이터를 Timestamp 시간순으로 재정렬')
+
+            time_min = pd.to_datetime(df['Timestamp'], ).min()
+            time_max = pd.to_datetime(df['Timestamp'], ).max()
+            st.write(('• {}년 {}월 {}일부터 설문조사를 시작하고 {}년 {}월 {}일까지 설문조사를 마무리 했다.').format(time_min.year, time_min.month, time_min.day, time_max.year, time_max.month, time_max.day))
+
+            df_color1= df.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'Timestamp':'Timestamp'])
+            st.dataframe(df_color1)
+
             #요일도 확인하여 넣어준다. 
-            days = ['Mon', 'Tues', 'Weds', 'Thurs', 'Fri', 'Sat', 'Sun' ]
+            days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ]
             df['Weekday'] = pd.to_datetime(df['Timestamp']).dt.weekday
             df['Weekday'] = df.apply(lambda x : days[x['Weekday']], axis = 1)
-            st.write('• Timestamp에 찍힌 날짜의 요일 정보도 추가')
+            st.write('▼ '+'Timestamp에 찍힌 날짜의 요일 정보도 추가')
             df_color4= df.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'Weekday':'Weekday'])
             st.dataframe(df_color4)
 
-            # 
-            st.write('총 {}명 중 {}명이 금요일에 설문조사에 응했으며, 월요일에도 {}명이 응했다. 또한 {}명의 사람들이 일요일에 응했다. ')
+            # 요일 정보. 
+            df_weekday = df['Weekday'].sort_values().unique()
+            df_weekday_count = df['Weekday'].value_counts().sort_values(ascending=False)
+            df_count = df['Age'].count()
+            
+            ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일']
+            st.write(('총 {}명 중 {}명이 {}에 설문조사에 답변했으며, {}에도 {}명이 답했다. 또한 {}명의 사람(들)이 {}에 답했다.').format(df_count, df_weekday_count[0], df_weekday[0], df_weekday[1], df_weekday_count[1], df_weekday_count[2], df_weekday[2]))
             fig = plt.figure()
             sb.countplot(data= df, x='Weekday')
             st.pyplot(fig)
