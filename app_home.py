@@ -7,7 +7,7 @@ def run_app_home() :
     st.markdown(small_title, unsafe_allow_html=True)
     st.write('This Data set was collected by a survey conducted by Google forms from University student in order to examine their current academic situation and mental health.')
 
-    img_url = '/img/dataset-cover.jpg'
+    img_url = 'http://43.202.53.218:8502/img/dataset-cover.jpg'
     st.image(img_url)
 
     st.subheader('정신 건강이 학점이 미치는 영향에 관한 통계적 연구')
