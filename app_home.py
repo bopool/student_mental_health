@@ -17,6 +17,3 @@ def run_app_home() :
     st.write('프로젝트 진행: 김하연 2023. 06. 23.')
 
 
-
-if __name__ == '__main__' : 
-    main()

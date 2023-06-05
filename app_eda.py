@@ -249,5 +249,3 @@ def run_app_eda() :
             st.text('2개 이상의 컬럼을 선택하세요.')
 
 
-if __name__ == '__main__' : 
-    main()
