@@ -32,7 +32,6 @@ def run_app_eda() :
 
 
         if st.checkbox('데이터 전처리') : 
-
             def draw_color_cell(x,color):
                 color = f'background-color:{color}'
                 return color
@@ -214,12 +213,12 @@ def run_app_eda() :
 
 
                 # 그래프 시각화 구간. 시작은 fig = plt.figure(), 끝은 st.pyplot(fig)
-    #           if df_c.type() == float and 7 > df_c.nunique() >= 2: 데이터 타입이 실수이고 그룹의 숫자가 2 이하이면 : 원 그래프 그리기.  
+                #                 if df_c.type() == float and 7 > df_c.nunique() >= 2: 데이터 타입이 실수이고 그룹의 숫자가 2 이하이면 : 원 그래프 그리기.  
                 fig = plt.figure()
                 plt.pie(df_c, labels=df_c.value_counts())
                 st.pyplot(fig)
-            #   elif df_c.type() == float and df_c.nunique() >= 7: 
-            #   else : 
+                #   elif df_c.type() == float and df_c.nunique() >= 7: 
+                #   else : 
                     #
 
                 bins_number = st.number_input('빈의 갯수를 입력하세요.', 10, 30, 20, 1)
@@ -231,21 +230,19 @@ def run_app_eda() :
                 st.pyplot(fig)
                 
                 #elif 데이터 타입이 실수이고 그룹 숫자가 2 이상 6이하이면 : 히스토그램 그리기 
-
                 #elif 데이터 타입이 실수이고 그룹 숫자가 7 이상이면 : 히스토그램 그리기 
-
                 #else : 선그래프? scatter ?
 
-            column_list = st.multiselect('상관분석 하고 싶은 컬럼', df.columns)
-            fig2 = plt.figure()
-            # 1. 데이터를 가져와서 2. 표든 그래프든 그리는 거다. 
-            if len(column_list) >= 2 : 
-                sns.heatmap(data = df[column_list].corr(),
-                            annot=True, vmin=-1, vmax=1, cmap='coolwarm',
-                            fmt='.2f', linewidths= 0.5)
-                st.pyplot(fig2)
-                # 문제점은 테스트를 하면서 발견되는 것이다. # 인터페이스에서 의미없는 것은 보여주지 말도록 해야 한다.  
-            elif len(column_list) == 1 : 
-                st.text('2개 이상의 컬럼을 선택하세요.')
+                column_list = st.multiselect('상관분석 하고 싶은 컬럼', df.columns)
+                fig2 = plt.figure()
+                # 1. 데이터를 가져와서 2. 표든 그래프든 그리는 거다. 
+                if len(column_list) >= 2 : 
+                    sns.heatmap(data = df[column_list].corr(),
+                                annot=True, vmin=-1, vmax=1, cmap='coolwarm',
+                                fmt='.2f', linewidths= 0.5)
+                    st.pyplot(fig2)
+                    # 문제점은 테스트를 하면서 발견되는 것이다. # 인터페이스에서 의미없는 것은 보여주지 말도록 해야 한다.  
+                elif len(column_list) == 1 : 
+                    st.text('2개 이상의 컬럼을 선택하세요.')
 
 
