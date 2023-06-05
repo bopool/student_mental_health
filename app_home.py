@@ -1,7 +1,5 @@
 import streamlit as st
 
-
-
 def run_app_home() : 
     small_title = '<span style="color:#006D64"><b>A STATISTICAL RESEARCH ON THE EFFECTS OF MENTAL HEALTH ON STUDENTS’ CGPA</b>  dataset</span>'
     st.markdown(small_title, unsafe_allow_html=True)
