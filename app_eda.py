@@ -230,11 +230,11 @@ def run_app_eda() :
                 plt.ylabel('count')
                 st.pyplot(fig)
                 
-    #          elif 데이터 타입이 실수이고 그룹 숫자가 2 이상 6이하이면 : 히스토그램 그리기 
+                #elif 데이터 타입이 실수이고 그룹 숫자가 2 이상 6이하이면 : 히스토그램 그리기 
 
-    #          elif 데이터 타입이 실수이고 그룹 숫자가 7 이상이면 : 히스토그램 그리기 
+                #elif 데이터 타입이 실수이고 그룹 숫자가 7 이상이면 : 히스토그램 그리기 
 
-    #         else : 선그래프? scatter ?
+                #else : 선그래프? scatter ?
 
             column_list = st.multiselect('상관분석 하고 싶은 컬럼', df.columns)
             fig2 = plt.figure()
