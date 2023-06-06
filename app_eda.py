@@ -229,6 +229,8 @@ def run_app_eda() :
                 df_col_f= df_col.pivot_table(columns = df_col.index, values= df_col, sort=False)
                 st.dataframe(df_col_f, width=860)
 
+                st.markdown(line4, unsafe_allow_html=True)
+
                 st.write(('▼ '+'최대 데이터 _ {} : {} 그룹 ( {} 명 / {} % )').format(column, df_c.max(), df.loc[df_c == df_c.max(), ].shape[0], df.loc[df_c == df_c.max(), ].shape[0] / df.shape[0] * 100))
                 st.dataframe(df.loc[df[column] == df[column].max(), ]) # 변수로 처리하는 것. 일반화 
                 st.write(('▼ '+'최소 데이터 _ {} : {} 그룹 ( {} 명 / {} % )').format(column, df_c.min(), df.loc[df_c == df_c.min(), ].shape[0], df.loc[df_c == df_c.min(), ].shape[0] / df.shape[0] * 100))
