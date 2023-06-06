@@ -216,7 +216,7 @@ def run_app_eda() :
                 # #                 if df_c.type() == float and 7 > df_c.nunique() >= 2: 데이터 타입이 실수이고 그룹의 숫자가 2 이하이면 : 원 그래프 그리기.  
 
                 fig = plt.figure()
-                plt.pie(df_c, labels=column, explode=exp, startangle=90, shadow=True, autopct='%.1f%%')  
+                plt.pie(df_c, labels=column, startangle=90, shadow=True, autopct='%.1f%%')  
                 st.pyplot(fig)
 
                 fig = plt.figure()
