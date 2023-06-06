@@ -215,19 +215,19 @@ def run_app_eda() :
                 # # 그래프 시각화 구간. 시작은 fig = plt.figure(), 끝은 st.pyplot(fig)
                 # #                 if df_c.type() == float and 7 > df_c.nunique() >= 2: 데이터 타입이 실수이고 그룹의 숫자가 2 이하이면 : 원 그래프 그리기.  
                 fig = plt.figure()
-                sb.countplot(data= df_c, x=column)
+                sb.countplot(data=df_c.to_frame(), x=column)
                 st.pyplot(fig)
                 #elif df_c.type() == float and df_c.nunique() >= 7: 
                 # #   else : 
                 #     #
 
-                # bins_number = st.number_input('빈의 갯수를 입력하세요.', 10, 30, 20, 1)
-                # fig = plt.figure()
-                # df[column].hist(bins =bins_number)
-                # plt.title(column + 'Histogram')
-                # plt.xlabel(column)
-                # plt.ylabel('count')
-                # st.pyplot(fig)
+                bins_number = st.number_input('빈의 갯수를 입력하세요.', 10, 30, 20, 1)
+                fig = plt.figure()
+                df[column].hist(bins =bins_number)
+                plt.title(column + 'Histogram')
+                plt.xlabel(column)
+                plt.ylabel('count')
+                st.pyplot(fig)
                 
                 # #elif 데이터 타입이 실수이고 그룹 숫자가 2 이상 6이하이면 : 히스토그램 그리기 
                 # #elif 데이터 타입이 실수이고 그룹 숫자가 7 이상이면 : 히스토그램 그리기 
