@@ -259,6 +259,8 @@ def run_app_eda() :
                 st.write('▼ '+'각 컬럼별 그룹 컬럼화')
                 st.dataframe(X)
 
+                st.markdown(line3, unsafe_allow_html=True)
+
                 X['MH Point'] = X.loc[:, 'Depression':'MH Treatment'].sum(axis=1)
                 st.write('▼ '+'시간 정보 삭제, Mental Health 관련 데이터 합산 포인트 컬럼 MH Point 추가')
                 st.dataframe(X)
