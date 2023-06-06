@@ -205,25 +205,25 @@ def run_app_eda() :
                     st.pyplot(fig)
 
                 elif column == 'Time': 
-                    fig = plt.figure()
+                    fig1 = plt.figure()
                     df['Time'].hist(bins =24)
                     plt.title(column + 'Histogram')
                     plt.xlabel(column)
                     plt.ylabel('count')
                     plt.xticks(rotation=45)
-                    st.pyplot(fig)
+                    st.pyplot(fig1)
 
                 elif 2 < df_c.nunique() < 15: 
-                    fig = plt.figure()
+                    fig2 = plt.figure()
                     sb.countplot(data=df_c.to_frame(), x=column)
                     plt.xticks(rotation=45)
-                    st.pyplot(fig)
+                    st.pyplot(fig2)
                                 
                 elif df_c.nunique() >= 15 : 
-                    fig = plt.figure()
+                    fig3 = plt.figure()
                     sb.countplot(data=df_c.to_frame(), x=column)
                     plt.gca().axes.xaxis.set_visible(False)
-                    st.pyplot(fig)
+                    st.pyplot(fig3)
                 
                 st.write('▼ '+'각 컬럼별 다수 그룹 확인')
                 df_col_f= df_col.pivot_table(columns = df_col.index, values= df_col, sort=False)
@@ -236,34 +236,43 @@ def run_app_eda() :
                 st.write(('▼ '+'최소 데이터 _ {} : {} 그룹 ( {} 명 / {} % )').format(column, df_c.min(), df.loc[df_c == df_c.min(), ].shape[0], df.loc[df_c == df_c.min(), ].shape[0] / df.shape[0] * 100))
                 st.dataframe(df.loc[df[column] == df[column].min(), ]) 
 
-            if st.subheader('상관분석') :
-                column_list = st.multiselect('상관분석하고 싶은 항목 선택', df.columns)
-                fig2 = plt.figure()
-                if len(column_list) >= 2 : 
-                    sns.heatmap(data = df[column_list].corr(),
-                                annot=True, vmin=-1, vmax=1, cmap='coolwarm',
-                                fmt='.2f', linewidths= 0.5)
-                    st.pyplot(fig2)
-                elif len(column_list) == 1 : 
-                    st.text('2개 이상의 컬럼을 선택하세요.')
-
-                # sns.catplot(x=column,
-                # col = 'who', #캔버스 분리하기
-                # kind ='count',#빈도 막대그래프 그리기
-                # data = df_titanic) 
+                st.markdown(line2, unsafe_allow_html=True)
 
 
-            X = pd.DataFrame() # 빈 데이터프레임 생성. 
-            # data가 가공된 분석에 필요한 모든 column을 포함하는 dataframe 으로 만들어 줄 것임
+            if st.subheader('상관분석') : 
+                X_box = pd.DataFrame() # 빈 데이터프레임 생성. 
+                # data가 가공된 분석에 필요한 모든 column을 포함하는 dataframe 으로 만들어 줄 것임
 
-            for name in df.columns:
-                if df[name].dtype == object: # 문자열 트루면 
-                    if df[name].nunique() <= 2 or df[name].nunique() > 6:
-                        label_encoder = LabelEncoder()
-                        X[name] = label_encoder.fit_transform(df[name])
-                    else:
-                        col_names = sorted(df[name].unique())
-                        X[col_names] = pd.get_dummies(df[name], columns = col_names)
+                for name in df.columns:
+                    if df[name].dtype == object: # 문자열 트루면 
+                        if df[name].nunique() <= 2 or df[name].nunique() > 6:
+                            label_encoder = LabelEncoder()
+                            X_box[name] = label_encoder.fit_transform(df[name])
+                        else:
+                            col_names = sorted(df[name].unique())
+                            X_box[col_names] = pd.get_dummies(df[name], columns = col_names)
 
-                else: # 문자열 트루 아니면 
-                    X[name] = df[name]
+                    else: # 문자열 트루 아니면 
+                        X_box[name] = df[name]
+                
+                X = X_box.loc[:, 'Gender':'MH Treatment']
+                st.dataframe(X)
+                X['MH Point'] = X.loc[:, 'Depression':'MH Treatment'].sum(axis=1)
+
+                st.dataframe(X)
+
+                
+                #X_train = [:, '']
+                
+                # column_list = st.multiselect('상관분석하고 싶은 항목 선택', X.columns)
+                # fig5 = plt.figure()
+                # if len(column_list) == 1 : 
+                #     st.write('2개 이상의 컬럼을 선택하세요.')
+                # elif len(column_list) >= 2 : 
+                #     sns.heatmap(data= X[column_list], cbar=True, annot=True, vmin=-1, vmax=1, cmap='coolwarm', fmt='.2f', linewidths= 0.5)
+                # st.pyplot(fig5)
+
+                # # sns.catplot(x=column,
+                # # col = 'who', #캔버스 분리하기
+                # # kind ='count',#빈도 막대그래프 그리기
+                # # data = df_titanic) 
