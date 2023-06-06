@@ -185,7 +185,7 @@ def run_app_eda() :
             df_index = df.style.set_properties(**{'text-align': 'left'}).set_table_styles(styles)
             st.dataframe(df_index)
 
-            st.markdown(line4, unsafe_allow_html=True)
+            st.markdown(line1, unsafe_allow_html=True)
 
             
             if st.subheader('각 컬럼별 정보 확인하기') :
