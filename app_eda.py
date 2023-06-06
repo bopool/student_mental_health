@@ -262,8 +262,9 @@ def run_app_eda() :
                 st.markdown(line3, unsafe_allow_html=True)
 
                 X['MH Point'] = X.loc[:, 'Depression':'MH Treatment'].sum(axis=1)
-                st.write('▼ '+'시간 정보 삭제, Mental Health 관련 데이터 합산 포인트 컬럼 MH Point 추가')
-                st.dataframe(X)
+                st.write('▼ '+'요일, 날짜, 시간 정보 삭제 + Mental Health 관련 데이터 합산 포인트 컬럼 MH Point 추가')
+                X_color1= X.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'MH Point':'MH Point'])
+                st.dataframe(X_color1)
 
                 
                 #X_train = [:, '']
