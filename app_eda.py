@@ -142,9 +142,9 @@ def run_app_eda() :
             
             ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일']
             st.write(('총 {}명 중 {}명이 {}에 설문조사에 답변했으며, {}에도 {}명이 답했다. 또한 {}명의 사람(들)이 {}에 답했다.').format(df_count, df_weekday_count[0], df_weekday[0], df_weekday[1], df_weekday_count[1], df_weekday_count[2], df_weekday[2]))
-            fig = plt.figure()
-            sb.countplot(data= df, x='Weekday')
-            st.pyplot(fig)
+            # fig = plt.figure()
+            # sb.countplot(data= df, x='Weekday')
+            # st.pyplot(fig)
 
             st.markdown(line3, unsafe_allow_html=True)
 
@@ -215,7 +215,7 @@ def run_app_eda() :
                 # # 그래프 시각화 구간. 시작은 fig = plt.figure(), 끝은 st.pyplot(fig)
                 # #                 if df_c.type() == float and 7 > df_c.nunique() >= 2: 데이터 타입이 실수이고 그룹의 숫자가 2 이하이면 : 원 그래프 그리기.  
                 fig = plt.figure()
-                plt.pie(df_c, labels=df_c.value_counts())
+                sb.countplot(data= df_c, x=column)
                 st.pyplot(fig)
                 #elif df_c.type() == float and df_c.nunique() >= 7: 
                 # #   else : 
