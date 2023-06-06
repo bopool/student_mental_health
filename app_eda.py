@@ -236,6 +236,23 @@ def run_app_eda() :
                 st.write(('▼ '+'최소 데이터 _ {} : {} 그룹 ( {} 명 / {} % )').format(column, df_c.min(), df.loc[df_c == df_c.min(), ].shape[0], df.loc[df_c == df_c.min(), ].shape[0] / df.shape[0] * 100))
                 st.dataframe(df.loc[df[column] == df[column].min(), ]) 
 
+            if st.subheader('상관분석') :
+                column_list = st.multiselect('상관분석하고 싶은 항목 선택', df.columns)
+                fig2 = plt.figure()
+                if len(column_list) >= 2 : 
+                    sns.heatmap(data = df[column_list].corr(),
+                                annot=True, vmin=-1, vmax=1, cmap='coolwarm',
+                                fmt='.2f', linewidths= 0.5)
+                    st.pyplot(fig2)
+                elif len(column_list) == 1 : 
+                    st.text('2개 이상의 컬럼을 선택하세요.')
+
+                # sns.catplot(x=column,
+                # col = 'who', #캔버스 분리하기
+                # kind ='count',#빈도 막대그래프 그리기
+                # data = df_titanic) 
+
+
             X = pd.DataFrame() # 빈 데이터프레임 생성. 
             # data가 가공된 분석에 필요한 모든 column을 포함하는 dataframe 으로 만들어 줄 것임
 
@@ -250,21 +267,3 @@ def run_app_eda() :
 
                 else: # 문자열 트루 아니면 
                     X[name] = df[name]
-
-                # column_list = st.multiselect('상관분석 하고 싶은 컬럼', df.columns)
-                # fig2 = plt.figure()
-                # # 1. 데이터를 가져와서 2. 표든 그래프든 그리는 거다. 
-                # if len(column_list) >= 2 : 
-                #     sns.heatmap(data = df[column_list].corr(),
-                #                 annot=True, vmin=-1, vmax=1, cmap='coolwarm',
-                #                 fmt='.2f', linewidths= 0.5)
-                #     st.pyplot(fig2)
-                #     # 문제점은 테스트를 하면서 발견되는 것이다. # 인터페이스에서 의미없는 것은 보여주지 말도록 해야 한다.  
-                # elif len(column_list) == 1 : 
-                #     st.text('2개 이상의 컬럼을 선택하세요.')
-
-
-                # sns.catplot(x=column,
-                # col = 'who', #캔버스 분리하기
-                # kind ='count',#빈도 막대그래프 그리기
-                # data = df_titanic) 
