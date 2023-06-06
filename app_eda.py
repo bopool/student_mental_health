@@ -260,7 +260,7 @@ def run_app_eda() :
                 st.dataframe(X)
 
                 X['MH Point'] = X.loc[:, 'Depression':'MH Treatment'].sum(axis=1)
-                st.write('▼ '+'Mental Health 관련 데이터 합산 포인트 컬럼 MH Point 추가')
+                st.write('▼ '+'시간 정보 삭제, Mental Health 관련 데이터 합산 포인트 컬럼 MH Point 추가')
                 st.dataframe(X)
 
                 
