@@ -214,10 +214,10 @@ def run_app_eda() :
 
                 # # 그래프 시각화 구간. 시작은 fig = plt.figure(), 끝은 st.pyplot(fig)
                 # #                 if df_c.type() == float and 7 > df_c.nunique() >= 2: 데이터 타입이 실수이고 그룹의 숫자가 2 이하이면 : 원 그래프 그리기.  
-                # fig = plt.figure()
-                # plt.pie(df_c, labels=df_c.value_counts())
-                # st.pyplot(fig)
-                # #   elif df_c.type() == float and df_c.nunique() >= 7: 
+                fig = plt.figure()
+                plt.pie(df_c, labels=df_c.value_counts())
+                st.pyplot(fig)
+                #elif df_c.type() == float and df_c.nunique() >= 7: 
                 # #   else : 
                 #     #
 
