@@ -256,9 +256,11 @@ def run_app_eda() :
                         X_box[name] = df[name]
                 
                 X = X_box.loc[:, 'Gender':'MH Treatment']
+                st.write('▼ '+'각 컬럼별 그룹 컬럼화')
                 st.dataframe(X)
-                X['MH Point'] = X.loc[:, 'Depression':'MH Treatment'].sum(axis=1)
 
+                X['MH Point'] = X.loc[:, 'Depression':'MH Treatment'].sum(axis=1)
+                st.write('▼ '+'Mental Health 관련 데이터 합산 포인트 컬럼 MH Point 추가')
                 st.dataframe(X)
 
                 
