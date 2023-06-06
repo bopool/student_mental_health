@@ -117,7 +117,7 @@ def run_app_eda() :
 
             time_min = pd.to_datetime(df['Timestamp'], ).min()
             time_max = pd.to_datetime(df['Timestamp'], ).max()
-            st.write(('• {}년 {}월 {}일부터 설문조사를 시작하고 {}년 {}월 {}일까지 설문조사를 마무리 했다.').format(time_min.year, time_min.month, time_min.day, time_max.year, time_max.month, time_max.day))
+            st.write(('• {}년 {}월 {}일부터 설문조사를 시작하고 {}년 {}월 {}일까지 설문조사를 마무리 했습니다.').format(time_min.year, time_min.month, time_min.day, time_max.year, time_max.month, time_max.day))
 
             df_color1= df.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'Timestamp':'Timestamp'])
             st.dataframe(df_color1)
@@ -141,7 +141,7 @@ def run_app_eda() :
             df_count = df.shape[0]
             
             ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일']
-            st.write(('총 {}명 중 {}명이 {}에 설문조사에 답변했으며, {}에도 {}명이 답했다. 또한 {}명의 사람(들)이 {}에 답했다.').format(df_count, df_weekday_count[0], df_weekday[0], df_weekday[1], df_weekday_count[1], df_weekday_count[2], df_weekday[2]))
+            st.write(('• 총 {}명 중 {}명이 {}에 설문조사에 답변했으며, {}에도 {}명이 답했다. 또한 {}명의 사람(들)이 {}에 답했다.').format(df_count, df_weekday_count[0], df_weekday[0], df_weekday[1], df_weekday_count[1], df_weekday_count[2], df_weekday[2]))
             # fig = plt.figure()
             # sb.countplot(data= df, x='Weekday')
             # st.pyplot(fig)
@@ -151,6 +151,7 @@ def run_app_eda() :
             # 시간 나눠서 넣음 
             df['Date'] = df['Timestamp'].dt.date
             df['Time'] = df['Timestamp'].dt.time
+
             df = df.drop(['Timestamp'], axis=1)
 
             st.write('▼ '+'Timestamp 날짜 정보와 시간 정보 분리')
@@ -182,10 +183,56 @@ def run_app_eda() :
                 dict(selector="td", props=td_props)
                 ]
             df_index = df.style.set_properties(**{'text-align': 'left'}).set_table_styles(styles)
-            
             st.dataframe(df_index)
 
             st.markdown(line4, unsafe_allow_html=True)
+
+            
+            if st.subheader('각 컬럼별 정보 확인하기') :
+                column = st.selectbox('컬럼을 선택하세요.', df.columns[0 :]) 
+                df_c = df[column]
+                df_col = df_c.value_counts().sort_values(ascending=False).to_frame()
+                for t in range(df.shape[0]):
+                    df.loc[t, 'Time'] = df.loc[t, 'Time'].hour
+
+                # 그래프 시각화 구간
+                if df_c.nunique() <= 2: 
+                    fig = plt.figure()
+                    df_c_v_unique = df_c.sort_values().unique()
+                    df_c_sv = df_c.value_counts().sort_values(ascending=False)
+                    plt.axis('equal')
+                    plt.pie(df_c_sv, labels =df_c_v_unique, shadow=False, autopct='%.1f%%')  
+                    st.pyplot(fig)
+
+                elif column == 'Time': 
+                    fig = plt.figure()
+                    df['Time'].hist(bins =24)
+                    plt.title(column + 'Histogram')
+                    plt.xlabel(column)
+                    plt.ylabel('count')
+                    plt.xticks(rotation=45)
+                    st.pyplot(fig)
+
+                elif 2 < df_c.nunique() < 15: 
+                    fig = plt.figure()
+                    sb.countplot(data=df_c.to_frame(), x=column)
+                    plt.xticks(rotation=45)
+                    st.pyplot(fig)
+                                
+                elif df_c.nunique() >= 15 : 
+                    fig = plt.figure()
+                    sb.countplot(data=df_c.to_frame(), x=column)
+                    plt.gca().axes.xaxis.set_visible(False)
+                    st.pyplot(fig)
+                
+                st.write('▼ '+'각 컬럼별 다수 그룹 확인')
+                df_col_f= df_col.pivot_table(columns = df_col.index, values= df_col, sort=False)
+                st.dataframe(df_col_f, width=860)
+
+                st.write(('▼ '+'최대 데이터 _ {} : {} 그룹 ( {} 명 / {} % )').format(column, df_c.max(), df.loc[df_c == df_c.max(), ].shape[0], df.loc[df_c == df_c.max(), ].shape[0] / df.shape[0] * 100))
+                st.dataframe(df.loc[df[column] == df[column].max(), ]) # 변수로 처리하는 것. 일반화 
+                st.write(('▼ '+'최소 데이터 _ {} : {} 그룹 ( {} 명 / {} % )').format(column, df_c.min(), df.loc[df_c == df_c.min(), ].shape[0], df.loc[df_c == df_c.min(), ].shape[0] / df.shape[0] * 100))
+                st.dataframe(df.loc[df[column] == df[column].min(), ]) 
 
             X = pd.DataFrame() # 빈 데이터프레임 생성. 
             # data가 가공된 분석에 필요한 모든 column을 포함하는 dataframe 으로 만들어 줄 것임
@@ -202,42 +249,6 @@ def run_app_eda() :
                 else: # 문자열 트루 아니면 
                     X[name] = df[name]
 
-            
-            if st.subheader('각 컬럼별 정보 확인하기') :
-                column = st.selectbox('컬럼을 선택하세요.', df.columns[0 :]) 
-                df_c = df[column]
-                st.write(('▼ '+'최대 데이터 _ {} : {} 그룹 ( {} 명 / {} % )').format(column, df_c.max(), df.loc[df_c == df_c.max(), ].shape[0], df.loc[df_c == df_c.max(), ].shape[0] / df.shape[0] * 100))
-                st.dataframe(df.loc[df[column] == df[column].max(), ])  # 변수로 처리하는 것. 일반화 
-                st.write(('▼ '+'최소 데이터 _ {} : {} 그룹 ( {} 명 / {} % )').format(column, df_c.min(), df.loc[df_c == df_c.min(), ].shape[0], df.loc[df_c == df_c.min(), ].shape[0] / df.shape[0] * 100))
-                st.dataframe(df.loc[df[column] == df[column].min(), ]) 
-
-
-                # # 그래프 시각화 구간. 시작은 fig = plt.figure(), 끝은 st.pyplot(fig)
-                # #                 if df_c.type() == float and 7 > df_c.nunique() >= 2: 데이터 타입이 실수이고 그룹의 숫자가 2 이하이면 : 원 그래프 그리기.  
-
-                fig = plt.figure()
-                plt.pie(df_c, labels=column, startangle=90, shadow=True, autopct='%.1f%%')  
-                st.pyplot(fig)
-
-                fig = plt.figure()
-                sb.countplot(data=df_c.to_frame(), x=column)
-                st.pyplot(fig)
-                #elif df_c.type() == float and df_c.nunique() >= 7: 
-                # #   else : 
-                #     #
-
-                bins_number = st.number_input('빈의 갯수를 입력하세요.', 10, 30, 20, 1)
-                fig = plt.figure()
-                df[column].hist(bins =bins_number)
-                plt.title(column + 'Histogram')
-                plt.xlabel(column)
-                plt.ylabel('count')
-                st.pyplot(fig)
-                
-                # #elif 데이터 타입이 실수이고 그룹 숫자가 2 이상 6이하이면 : 히스토그램 그리기 
-                # #elif 데이터 타입이 실수이고 그룹 숫자가 7 이상이면 : 히스토그램 그리기 
-                # #else : 선그래프? scatter ?
-
                 # column_list = st.multiselect('상관분석 하고 싶은 컬럼', df.columns)
                 # fig2 = plt.figure()
                 # # 1. 데이터를 가져와서 2. 표든 그래프든 그리는 거다. 
@@ -251,3 +262,7 @@ def run_app_eda() :
                 #     st.text('2개 이상의 컬럼을 선택하세요.')
 
 
+                # sns.catplot(x=column,
+                # col = 'who', #캔버스 분리하기
+                # kind ='count',#빈도 막대그래프 그리기
+                # data = df_titanic) 
