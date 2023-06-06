@@ -266,7 +266,30 @@ def run_app_eda() :
                 X_color1= X.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'MH Point':'MH Point'])
                 st.dataframe(X_color1)
 
+                st.markdown(line3, unsafe_allow_html=True)
+
+                st.write('▼ '+'먼저 MH Point와 CGPA의 상관관계를 확인한다.')
+                X['CGPA'] = df['CGPA']
+                X_color2= X.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'MH Point':'CGPA'])
+                st.dataframe(X_color2)
+
+                X_mhp_cgpa = X.loc[:,'MH Point':'CGPA']
+                st.dataframe(X_mhp_cgpa, height=220, width=860)
                 
+                # X_mhp_cgpa['CGPA'] = pd.get_dummies(X_mhp_cgpa['CGPA'])
+                # # X['CGPA'].sort_values().unique()
+                # X_mc_corr = X_mhp_cgpa.corr()
+                # names = ['MH Point', 'CGPA']
+                # X_mc = X_mc_corr.loc[:, names]
+                # fig4 = plt.figure(figsize = (16, 6))
+                # for i, name in enumerate(names[1:]):
+                #     ax = plt.subplot(1, 2, i+1)
+                #     sns.regplot(x=name, y=names[0], data = X_mc, ax=ax)
+                # st.pyplot(fig4)
+
+
+
+
                 #X_train = [:, '']
                 
                 # column_list = st.multiselect('상관분석하고 싶은 항목 선택', X.columns)
