@@ -214,6 +214,22 @@ def run_app_eda() :
 
                 # # 그래프 시각화 구간. 시작은 fig = plt.figure(), 끝은 st.pyplot(fig)
                 # #                 if df_c.type() == float and 7 > df_c.nunique() >= 2: 데이터 타입이 실수이고 그룹의 숫자가 2 이하이면 : 원 그래프 그리기.  
+
+                fig = plt.figure()
+                x_label = df_c
+                plt.pie(ratio_tip_by_day, # 비율 값
+                        labels=x_label, # 라벨 값
+                        autopct='%.1f%%', # 부채꼴 안에 표시될 숫자 형식(소수점 1자리까지 표시)
+                        startangle=90, # 축이 시작되는 각도 설정
+                        counterclock=True, # True: 시계방향순 , False:반시계방향순
+                        explode=[0.05,0.05,0.05,0.05], # 중심에서 벗어나는 정도 표시
+                        shadow=True, # 그림자 표시 여부
+                        colors = ['#ff9999', '#ffc000', '#8fd9b6', '#d395d0'], # colors=['gold','silver','whitesmoke','gray']
+                        wedgeprops = {'width':0.7,'edgecolor':'w','linewidth':3}
+                        ) #width: 부채꼴 영역 너비,edgecolor: 테두리 색 , linewidth : 라인 두께
+                plt.title(column, fontsize=16)
+                st.pyplot(fig)
+
                 fig = plt.figure()
                 sb.countplot(data=df_c.to_frame(), x=column)
                 st.pyplot(fig)
