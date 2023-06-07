@@ -26,6 +26,7 @@
 - Did you seek any specialist for a treatment? (MH Treatment)<br>
 - (MP Point)<br>
 <br>
+
 ### 2. 탐색적 데이터 분석 
 <b>Exploratory Data Analysis</b><br>
 - 데이터의 정보 및 결측치 확인, 삭제
