@@ -202,6 +202,7 @@ def run_app_eda() :
                     df_c_sv = df_c.value_counts().sort_values(ascending=False)
                     plt.axis('equal')
                     plt.pie(df_c_sv, labels =df_c_v_unique, shadow=False, autopct='%.1f%%')  
+                    plt.gca().set_facecolor('#f5f5f5')
                     st.pyplot(fig)
 
                 elif column == 'Time': 
@@ -211,18 +212,30 @@ def run_app_eda() :
                     plt.xlabel(column)
                     plt.ylabel('count')
                     plt.xticks(rotation=45)
+                    plt.gca().spines['top'].set_visible(False)
+                    plt.gca().spines['right'].set_visible(False)
+                    plt.gca().spines['left'].set_visible(False)
+                    plt.gca().set_facecolor('#f5f5f5') 
                     st.pyplot(fig1)
 
                 elif 2 < df_c.nunique() < 15: 
                     fig2 = plt.figure()
                     sb.countplot(data=df_c.to_frame(), x=column)
                     plt.xticks(rotation=45)
+                    plt.gca().spines['top'].set_visible(False) 
+                    plt.gca().spines['right'].set_visible(False) 
+                    plt.gca().spines['left'].set_visible(False)
+                    plt.gca().set_facecolor('#f5f5f5')
                     st.pyplot(fig2)
                                 
                 elif df_c.nunique() >= 15 : 
                     fig3 = plt.figure()
                     sb.countplot(data=df_c.to_frame(), x=column)
                     plt.gca().axes.xaxis.set_visible(False)
+                    plt.gca().spines['top'].set_visible(False) 
+                    plt.gca().spines['right'].set_visible(False) 
+                    plt.gca().spines['left'].set_visible(False)
+                    plt.gca().set_facecolor('#f5f5f5') 
                     st.pyplot(fig3)
                 
                 st.write('▼ '+'각 컬럼별 다수 그룹 확인')
@@ -268,15 +281,23 @@ def run_app_eda() :
 
                 st.markdown(line3, unsafe_allow_html=True)
 
-                st.write('▼ '+'먼저 MH Point와 CGPA의 상관관계를 확인한다.')
+                st.write('▼ '+'MH Point와 CGPA의 상관관계 확인')
                 X['CGPA'] = df['CGPA']
                 X_color2= X.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'MH Point':'CGPA'])
                 st.dataframe(X_color2)
 
                 X_mhp_cgpa = X.loc[:,'MH Point':'CGPA']
                 st.dataframe(X_mhp_cgpa, height=220, width=860)
-                
-                # X_mhp_cgpa['CGPA'] = pd.get_dummies(X_mhp_cgpa['CGPA'])
+
+               
+                fig6 = plt.figure()
+                sb.countplot(data=X_mhp_cgpa, x='CGPA')
+                plt.xticks(rotation=45)
+                plt.gca().spines['top'].set_visible(False) 
+                plt.gca().spines['right'].set_visible(False) 
+                plt.gca().spines['left'].set_visible(False)
+                plt.gca().set_facecolor('#f5f5f5')
+                st.pyplot(fig6)
                 # # X['CGPA'].sort_values().unique()
                 # X_mc_corr = X_mhp_cgpa.corr()
                 # names = ['MH Point', 'CGPA']
