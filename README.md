@@ -7,7 +7,7 @@
 
 ## 프로젝트 소개
  
-프로젝트로 선택한 데이터는 Kaggle에서 공유한 [Student Mental health - A STATISTICAL RESEARCH ON THE EFFECTS OF MENTAL HEALTH ON STUDENTS’ CGPA dataset](https://www.kaggle.com/datasets/shariful07/student-mental-health)입니다. 다양한 분석 활동이 가능한 항목으로 구성되어 있어서 이 데이터 셋을 선택하였습니다. 
+데이터 분석을 위한 데이터는 Kaggle에서 공유한 [Student Mental health - A STATISTICAL RESEARCH ON THE EFFECTS OF MENTAL HEALTH ON STUDENTS’ CGPA dataset](https://www.kaggle.com/datasets/shariful07/student-mental-health)입니다. 다양한 분석 활동이 가능한 항목으로 구성되어 있어서 이 데이터 셋을 선택하였습니다. 
 데이터의 설명에서 언급된 정신건강이 학점에 미치는 영향뿐만 아니라, 이 데이터의 분석을 통해 예측볼 수 있는 다양한 상관관계를 검토해 보았습니다. 
 
 ### 1. 데이터 속성 <br>
