@@ -3,12 +3,12 @@
 정신건강이 학생의 CGPA 학업성적에 미치는 영향에 관한 통계적 연구를 위한 데이터셋<br><br>
 <img src="https://img.shields.io/badge/python-3776AB?style=flat&logo=python&logoColor=white"/> <img src="https://img.shields.io/badge/googlecolab-F9AB00?style=flat&logo=googlecolab&logoColor=white"/> <img src="https://img.shields.io/badge/numpy-013243?style=flat&logo=numpy&logoColor=white"/> <img src="https://img.shields.io/badge/pandas-150458?style=flat&logo=pandas&logoColor=white"/> <img src="https://img.shields.io/badge/streamlit-FF4B4B?style=flat&logo=streamlit&logoColor=white"/> <img src="https://img.shields.io/badge/amazonaws-232F3E?style=flat&logo=amazonaws&logoColor=white"/> <img src="https://img.shields.io/badge/linux-FCC624?style=flat&logo=linux&logoColor=white"/><br>
 <br>
-<img src="https://github.com/bopool/student_mental_health/blob/main/img/dataset-cover.jpg" alt="낮은 직사각형 초록색 바탕이미지 안에 인물의 옆모습으로 보이는 흰색 실루엣이 있다. 흰색 인물의 머리 부분에는 학생들의 생활을 상징하는 학사모와 연필 실험도구 차트 돋보기 등 다양한 아이콘 이미지들이 둥글게 배치되어 있다." style="border-radius:5px"><br><br>
+<img src="https://github.com/bopool/student_mental_health/blob/main/img/dataset-cover.jpg" alt="낮은 직사각형 초록색 바탕이미지 안에 인물의 옆모습으로 보이는 흰색 실루엣이 있다. 흰색 인물의 머리 부분에는 학생들의 생활을 상징하는 학사모와 연필 실험도구 차트 돋보기 등 다양한 아이콘 이미지들이 둥글게 배치되어 있다." style="border-radius:5px"><br><br><br>
 
 ## 프로젝트 소개
  
 데이터 분석을 위한 데이터는 Kaggle에서 공유한 [Student Mental health - A STATISTICAL RESEARCH ON THE EFFECTS OF MENTAL HEALTH ON STUDENTS’ CGPA dataset](https://www.kaggle.com/datasets/shariful07/student-mental-health)입니다. 다양한 분석 활동이 가능한 항목으로 구성되어 있어서 이 데이터 셋을 선택하였습니다. 
-데이터의 설명에서 언급된 정신건강이 학점에 미치는 영향뿐만 아니라, 이 데이터의 분석을 통해 예측볼 수 있는 다양한 상관관계를 검토해 보았습니다. 
+데이터의 설명에서 언급된 정신건강이 학점에 미치는 영향뿐만 아니라, 이 데이터의 분석을 통해 예측볼 수 있는 다양한 상관관계를 검토해 보았습니다. <br><br><br>
 
 ### 1. 데이터 속성 <br>
 <b>FEATURES</b><br>
