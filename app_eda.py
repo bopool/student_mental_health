@@ -69,8 +69,9 @@ def run_app_eda() :
         df_isna_frame = df_isna_sum.to_frame()
         df_isna_frame.columns = ['NA']
         df_isna_frame['Column']= df.columns
-        df_info_isna = df_info.merge(df_isna_frame, on='Column', how='left')
-        st.dataframe(df_info_isna, height=422, width=860)
+        df_info_isna_0 = df_info.merge(df_isna_frame, on='Column', how='left')
+        df_color_isna2= df_info_isna_0.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'NA'])
+        st.dataframe(df_color_isna2, height=422, width=860)
         
         st.markdown(line3, unsafe_allow_html=True)
 
@@ -239,6 +240,7 @@ def run_app_eda() :
             plt.gca().set_facecolor('#f8f9fb')
             st.pyplot(fig3)
         
+        
         st.write(('▼ '+'{} 컬럼의 다수 그룹 확인').format(column))
         df_col_f= df_col.pivot_table(columns = df_col.index, values= df_col, sort=False)
         st.dataframe(df_col_f, width=860)
@@ -373,7 +375,7 @@ def run_app_eda() :
             mask[np.triu_indices_from(mask)] = True
             sns.heatmap(X_mh_cgpa_corr, 
                 cmap = 'RdYlBu_r', 
-                annot_kws={"size": 18},
+                annot_kws={"size": 16},
                 annot = True,   # 실제 값을 표시한다
                 mask = mask,      # 표시하지 않을 마스크 부분을 지정한다
                 linewidths=.5,  # 경계면 실선으로 구분하기
@@ -400,6 +402,11 @@ def run_app_eda() :
             #             fig2 = plt.figure()
             #             sns.heatmap(data=df2[column_list].corr(),fmt='.2f',linewidths=0.5, annot = True, vmin = -1, vmax = 1,cmap='coolwarm')
             #             st.pyplot(fig2)
+
+        st.markdown(line2, unsafe_allow_html=True)
        
-        if st.checkbox('회귀분석') :
-            st.write('▼ '+'회귀분석을 위한 불필요한 데이터 삭제')
+        if st.checkbox('회귀분석 Linear regression', value=True) :
+            st.write('▼ '+'회귀분석을 위해 조사의 고정 조건인 요일과 날짜 시간 데이터 삭제')
+            X_drop = X.drop(['Time','2020-07-13','2020-07-18','2020-08-07','2020-09-07','Hour', '금요일', '토요일', '월요일'], axis =1)
+            st.dataframe(X_drop)
+            
