@@ -416,8 +416,8 @@ def run_app_eda() :
 
         st.markdown(line2, unsafe_allow_html=True)
        
-        if st.checkbox('회귀분석 Linear regression', value=True) :
-            pass
+        # if st.checkbox('회귀분석 Linear regression', value=True) :
+        #     pass
             
 
 
