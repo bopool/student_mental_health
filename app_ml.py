@@ -11,7 +11,7 @@ def run_app_ml() :
     line3 = '<div style="border-top:0px dashed #ddd; width:100%; height:20px; margin-top:0px;"></div>'    
     line4 = '<div style="border-top:1px dashed #ddd; width:100%; height:30px; margin-top:10px;"></div>'    
 
-    st.subheader('정신 건강과 학교생활 정보에 의한 학점 예측')
+    st.subheader('정신 건강과 학교생활 정보를 통한 학점 예측')
     st.markdown(line3, unsafe_allow_html=True)
 
     gender = st.radio('● 성별을 선택하세요.', ['남자', '여자'])
@@ -48,16 +48,16 @@ def run_app_ml() :
     regressor = joblib.load('model/regressor.pkl')
     y_pred = regressor.predict(new_data)
         
-    # 버튼을 누르면 예측한 금액을 표시한다.
-    if st.button('성적 예측'):
-        print(y_pred)
-        # print(y_pred[0])  
-        # print(round(y_pred[0]))
-        # price = round(y_pred[0])
-        # print(str(price) + '')
-        # print(f'{price}')
-        # print('{}'.format(price))
-        # st.text(f'{price}')
+    # # 버튼을 누르면 예측한 금액을 표시한다.
+    # if st.button('성적 예측'):
+    #     print(y_pred)
+    #     # print(y_pred[0])  
+    #     # print(round(y_pred[0]))
+    #     # price = round(y_pred[0])
+    #     # print(str(price) + '')
+    #     # print(f'{price}')
+    #     # print('{}'.format(price))
+    #     # st.text(f'{price}')
         
 
 
