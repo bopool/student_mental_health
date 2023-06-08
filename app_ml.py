@@ -33,17 +33,21 @@ def run_app_ml() :
     Marital_status = st.radio('● 혼인 여부를 선택하세요.',
         ('미혼', '기혼'))
     st.markdown(line3, unsafe_allow_html=True)
+
     Depression = st.radio("● 최근 우울 증상을 느끼고 있나요?",
         ('예', '아니오'))
     st.markdown(line3, unsafe_allow_html=True)
+
     Anxiety = st.radio(
         "● 최근 불안 증상을 느끼고 있나요?",
         ('예', '아니오'))
     st.markdown(line3, unsafe_allow_html=True)
+
     Panic_attack = st.radio(
         "● 최근 공황발작 증상이 있었나요?",
         ('예', '아니오'))
     st.markdown(line3, unsafe_allow_html=True)
+    
     MH_Treatment = st.radio(
         "● 정신건강과 관련한 진료를 받은 경험이 있나요?",
         ('예', '아니오'))
@@ -59,13 +63,13 @@ def run_app_ml() :
     # 버튼을 누르면 예측한 금액을 표시한다.
     if st.button('성적 예측'):
         print(y_pred)
-        print(y_pred[0]) # = 
-        print(round(y_pred[0]))
-        price = round(y_pred[0])
-        print(str(price) + '')
-        print(f'{price}')
-        print('{}'.format(price))
-        st.text(f'{price}')
+        print(y_pred[0])  
+        # print(round(y_pred[0]))
+        # price = round(y_pred[0])
+        # print(str(price) + '')
+        # print(f'{price}')
+        # print('{}'.format(price))
+        # st.text(f'{price}')
         
 
 
