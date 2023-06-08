@@ -51,7 +51,7 @@ def run_app_ml() :
     # 버튼을 누르면 예측한 금액을 표시한다.
     if st.button('성적 예측'):
         print(y_pred)
-        print(y_pred[0])  
+        # print(y_pred[0])  
         # print(round(y_pred[0]))
         # price = round(y_pred[0])
         # print(str(price) + '')
