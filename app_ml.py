@@ -14,47 +14,35 @@ def run_app_ml() :
     st.subheader('정신 건강과 학교생활 정보에 의한 학점 예측')
     st.markdown(line3, unsafe_allow_html=True)
 
-    Gender = st.radio('● 성별을 선택하세요.', ['남자', '여자'])
+    gender = st.radio('● 성별을 선택하세요.', ['남자', '여자'])
     st.markdown(line3, unsafe_allow_html=True)
 
-    Age = st.number_input('● 나이를 입력하세요', 18, 100)
+    age = st.number_input('● 나이를 입력하세요', 18, 100)
     st.markdown(line3, unsafe_allow_html=True)
 
-    Course = st.number_input('● 전공을 선택하세요.', 1, 100)
+    course = st.number_input('● 전공을 선택하세요.', 1, 100)
     st.markdown(line3, unsafe_allow_html=True)
 
-    st.write('● 해당되는 학년을 선택하세요.')
-    Year1 = st.checkbox('1학년') 
-    Year2 = st.checkbox('2학년') 
-    Year3 = st.checkbox('3학년') 
-    Year4 = st.checkbox('4학년')  
+    gender = st.radio('● 해당되는 학년을 선택하세요.', ['1학년', '2학년', '3학년', '4학년'])
     st.markdown(line3, unsafe_allow_html=True)
 
-    Marital_status = st.radio('● 혼인 여부를 선택하세요.',
-        ('미혼', '기혼'))
+    marital_status = st.radio('● 혼인 여부를 선택하세요.', ['미혼', '기혼'])
     st.markdown(line3, unsafe_allow_html=True)
 
-    Depression = st.radio("● 최근 우울 증상을 느끼고 있나요?",
-        ('예', '아니오'))
+    depression = st.radio("● 최근 우울 증상을 느끼고 있나요?", ['예', '아니오'])
     st.markdown(line3, unsafe_allow_html=True)
 
-    Anxiety = st.radio(
-        "● 최근 불안 증상을 느끼고 있나요?",
-        ('예', '아니오'))
+    anxiety = st.radio("● 최근 불안 증상을 느끼고 있나요?", ['예', '아니오'])
     st.markdown(line3, unsafe_allow_html=True)
 
-    Panic_attack = st.radio(
-        "● 최근 공황발작 증상이 있었나요?",
-        ('예', '아니오'))
+    panic_attack = st.radio("● 최근 공황발작 증상이 있었나요?", ['예', '아니오'])
     st.markdown(line3, unsafe_allow_html=True)
-    
-    MH_Treatment = st.radio(
-        "● 정신건강과 관련한 진료를 받은 경험이 있나요?",
-        ('예', '아니오'))
+
+    mh_treatment = st.radio("● 정신건강과 관련한 진료를 받은 경험이 있나요?", ['예', '아니오'])
     st.markdown(line3, unsafe_allow_html=True)
     # 실제로 예측할 때도 '학습 시킬 때 사용한 항목'을 입력해야 한다.     
 
-    new_data = np.array([Gender,Age,Course,Year1,Year2,Year3,Year4,Marital_status,Depression,Anxiety,Panic_attack,MH_Treatment])
+    new_data = np.array([gender,age,course,marital_status,depression,anxiety,panic_attack,mh_treatment])
     new_data = new_data.reshape(1, 12)
     
     regressor = joblib.load('model/regressor.pkl')
