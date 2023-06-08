@@ -362,13 +362,13 @@ def run_app_eda() :
             if len(column_list) <= 1 : 
                 st.write('2개 이상의 컬럼을 선택하세요.')
             elif len(column_list) >= 2 : 
-                fig5 = plt.figure()
+                fig12 = plt.figure()
                 sns.heatmap(data= X[column_list].corr(), cbar=True, annot=True, vmin=-1, vmax=1, cmap='coolwarm', fmt='.2f', linewidths= 0.5)
-                st.pyplot(fig5)
+                st.pyplot(fig12)
 
             st.write('▼ '+'성적과 정신건강과의 상관계수를 따로 확인')
             X_mh_cgpa_corr = X[['0 - 1.99','2.00 - 2.49','2.50 - 2.99','3.00 - 3.49','Depression','Anxiety','Panic attack','MH Point']].corr()
-            fig11, ax = plt.subplots(figsize=(16,12))
+            fig13, ax = plt.subplots(figsize=(16,12))
             mask = np.zeros_like(X_mh_cgpa_corr)
             mask[np.triu_indices_from(mask)] = True
             sns.heatmap(X_mh_cgpa_corr, 
@@ -383,7 +383,7 @@ def run_app_eda() :
                 xticklabels=1, yticklabels=1
             )
             # gr.set_facecolor('#f8f9fb')
-            st.pyplot(fig11)
+            st.pyplot(fig13)
 
             # df2= preprocess_inputs(df)
             #     if st.checkbox('전체 컬럼 상관관계 분석') == True: 
