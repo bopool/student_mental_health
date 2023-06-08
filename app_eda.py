@@ -314,7 +314,7 @@ def run_app_eda() :
                 annot = True,   # 실제 값을 표시한다
                 mask = mask,      # 표시하지 않을 마스크 부분을 지정한다
                 linewidths=.5,  # 경계면 실선으로 구분하기
-                #cbar_kws={"shrink": }, 
+                cbar_kws={"shrink": .8}, 
                 vmin = -1, vmax = 1, 
                 fmt='.1f',
                 xticklabels=1, yticklabels=1
@@ -366,18 +366,18 @@ def run_app_eda() :
                 sns.heatmap(data= X[column_list].corr(), cbar=True, annot=True, vmin=-1, vmax=1, cmap='coolwarm', fmt='.2f', linewidths= 0.5)
                 st.pyplot(fig5)
 
-            st.write('▼ '+'성적과 정신건강과의 상관계수 확인')
-            X_corr_cgpa = 
+            st.write('▼ '+'성적과 정신건강과의 상관계수를 따로 확인')
+            X_mh_cgpa_corr = X[['0 - 1.99','2.00 - 2.49','2.50 - 2.99','3.00 - 3.49','Depression','Anxiety','Panic attack','MH Point']].corr()
             fig11, ax = plt.subplots(figsize=(16,12))
-            mask = np.zeros_like(X_corr)
+            mask = np.zeros_like(X_mh_cgpa_corr)
             mask[np.triu_indices_from(mask)] = True
-            sns.heatmap(X_corr, 
+            sns.heatmap(X_mh_cgpa_corr, 
                 cmap = 'RdYlBu_r', 
                 annot_kws={"size": 18},
                 annot = True,   # 실제 값을 표시한다
                 mask = mask,      # 표시하지 않을 마스크 부분을 지정한다
                 linewidths=.5,  # 경계면 실선으로 구분하기
-                #cbar_kws={"shrink": }, 
+                cbar_kws={"shrink": .8}, 
                 vmin = -1, vmax = 1, 
                 fmt='.1f',
                 xticklabels=1, yticklabels=1
