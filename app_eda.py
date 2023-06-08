@@ -385,4 +385,4 @@ def run_app_eda() :
             #             st.pyplot(fig2)
        
         if st.checkbox('회귀분석') :
-             
+             pass
