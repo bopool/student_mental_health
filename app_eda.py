@@ -361,7 +361,7 @@ def run_app_eda() :
                 st.write('2개 이상의 컬럼을 선택하세요.')
             elif len(column_list) >= 2 : 
                 fig5 = plt.figure()
-                sns.heatmap(data= X_corr[column_list], cbar=True, annot=True, vmin=-1, vmax=1, cmap='coolwarm', fmt='.2f', linewidths= 0.5)
+                sns.heatmap(data= column_list, cbar=True, annot=True, vmin=-1, vmax=1, cmap='coolwarm', fmt='.2f', linewidths= 0.5)
                 st.pyplot(fig5)
 
 
