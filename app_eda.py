@@ -258,7 +258,7 @@ def run_app_eda() :
         for k in range(df.shape[0]):
             df.loc[k,'CGPA'] = df.loc[k,'CGPA'].strip()
 
-        if st.subheader('상관분석') : 
+        if st.checkbox('상관분석', value=True) : 
             X_box = pd.DataFrame() # 빈 데이터프레임 생성. 
             # data가 가공된 분석에 필요한 모든 column을 포함하는 dataframe 으로 만들어 줄 것임
 
@@ -384,3 +384,5 @@ def run_app_eda() :
             #             sns.heatmap(data=df2[column_list].corr(),fmt='.2f',linewidths=0.5, annot = True, vmin = -1, vmax = 1,cmap='coolwarm')
             #             st.pyplot(fig2)
        
+        if st.checkbox('회귀분석') :
+             
