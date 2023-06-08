@@ -5,35 +5,49 @@ import joblib
 # 개발할 때는 각 필요한 위치를 찾아 오르락내리락하면서 작업을 진행해야 한다. cpu말고는 위에서 아래로 진행되는 것이 없다. 
 
 def run_app_ml() : 
+    line1 = '<div style="border-top:1px solid #006D64; width:100%; height:10px;"></div>'    
+    st.markdown(line1, unsafe_allow_html=True)
+    line2 = '<div style="border-top:1px solid #ddd; width:100%; height:40px; margin-top:20px;"></div>'    
+    line3 = '<div style="border-top:0px dashed #ddd; width:100%; height:20px; margin-top:0px;"></div>'    
+    line4 = '<div style="border-top:1px dashed #ddd; width:100%; height:30px; margin-top:10px;"></div>'    
+
     st.subheader('정신 건강과 학교생활 정보에 의한 학점 예측')
-    # 성별, 나이, 연봉, 카드빚, 자산을 
-    # 유저에게 입력받는다. 
-    Gender = st.radio('성별', ['남자', '여자'])
+    st.markdown(line3, unsafe_allow_html=True)
 
-    Age = st.number_input('나이 선택', 18, 100)
-    
-    Course = st.number_input('과목 선택', 18, 100)
-    
-    Year1 = st.checkbox('1학년')
-    Year2 = st.checkbox('2학년')
-    Year3 = st.checkbox('3학년')
-    Year4 = st.checkbox('4학년')
+    Gender = st.radio('● 성별을 선택하세요.', ['남자', '여자'])
+    st.markdown(line3, unsafe_allow_html=True)
 
-    Marital_status = st.radio(
-        "혼인 여부",
+    Age = st.number_input('● 나이를 입력하세요', 18, 100)
+    st.markdown(line3, unsafe_allow_html=True)
+
+    Course = st.number_input('● 전공을 선택하세요.', 1, 100)
+    st.markdown(line3, unsafe_allow_html=True)
+
+    st.write('● 해당되는 학년을 선택하세요.')
+    Year1 = st.checkbox('1학년') 
+    Year2 = st.checkbox('2학년') 
+    Year3 = st.checkbox('3학년') 
+    Year4 = st.checkbox('4학년')  
+    st.markdown(line3, unsafe_allow_html=True)
+
+    Marital_status = st.radio('● 혼인 여부를 선택하세요.',
         ('미혼', '기혼'))
-    Depression = st.radio(
-        "최근 우울 증상을 느끼고 있나요?",
+    st.markdown(line3, unsafe_allow_html=True)
+    Depression = st.radio("● 최근 우울 증상을 느끼고 있나요?",
         ('예', '아니오'))
+    st.markdown(line3, unsafe_allow_html=True)
     Anxiety = st.radio(
-        "최근 불안 증상을 느끼고 있나요?",
+        "● 최근 불안 증상을 느끼고 있나요?",
         ('예', '아니오'))
+    st.markdown(line3, unsafe_allow_html=True)
     Panic_attack = st.radio(
-        "최근 공황발작 증상이 있었나요?",
+        "● 최근 공황발작 증상이 있었나요?",
         ('예', '아니오'))
+    st.markdown(line3, unsafe_allow_html=True)
     MH_Treatment = st.radio(
-        "정신건강과 관련한 진료를 받은 경험이 있나요?",
+        "● 정신건강과 관련한 진료를 받은 경험이 있나요?",
         ('예', '아니오'))
+    st.markdown(line3, unsafe_allow_html=True)
     # 실제로 예측할 때도 '학습 시킬 때 사용한 항목'을 입력해야 한다.     
 
     new_data = np.array([Gender,Age,Course,Year1,Year2,Year3,Year4,Marital_status,Depression,Anxiety,Panic_attack,MH_Treatment])
