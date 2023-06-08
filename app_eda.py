@@ -191,7 +191,7 @@ def run_app_eda() :
 
         
     if st.checkbox('각 컬럼별 정보 확인하기', value=True) :
-        column = st.selectbox('▼ 컬럼을 선택하시면 각 컬럼별 그래프, 다수 그룹, 최소/최대 데이터를 함께 확인하실 수 있습니다. .', df.columns[0 :]) 
+        column = st.selectbox('▼ 컬럼을 선택하시면 각 컬럼별 그래프, 다수 그룹, 최소/최대 데이터를 함께 확인하실 수 있습니다.', df.columns[0 :]) 
         df_c = df[column]
         df_col = df_c.value_counts().sort_values(ascending=False).to_frame()
         for t in range(df.shape[0]):
@@ -312,8 +312,8 @@ def run_app_eda() :
                 annot = True,   # 실제 값을 표시한다
                 mask = mask,      # 표시하지 않을 마스크 부분을 지정한다
                 linewidths=.5,  # 경계면 실선으로 구분하기
-                cbar_kws={"shrink": .8},# 컬러바 크기 절반으로 줄이기
-                vmin = -1, vmax = 1,   # 컬러바 범위 -1 ~ 1
+                #cbar_kws={"shrink": }, 
+                vmin = -1, vmax = 1, 
                 fmt='.1f',
                 xticklabels=1, yticklabels=1
             )
