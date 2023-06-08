@@ -257,8 +257,8 @@ def run_app_eda() :
 
         st.markdown(line2, unsafe_allow_html=True)
 
-        for k in range(df.shape[0]):
-            df.loc[k,'CGPA'] = df.loc[k,'CGPA'].strip()
+        
+        df['CGPA'] = df['CGPA'].str.replace(" ", "")
 
         if st.checkbox('상관분석', value=True) : 
             X_box = pd.DataFrame() # 빈 데이터프레임 생성. 
@@ -288,22 +288,45 @@ def run_app_eda() :
             st.write('▼ '+'각 컬럼별 그룹 컬럼화')
             st.dataframe(X)
 
-            st.write('▼ '+'MH Point와 CGPA의 상관관계 확인')
+            st.markdown(line3, unsafe_allow_html=True)
+
+            st.write('▼ '+'CGPA 컬럼값 다시 추가, 서열-정수 데이터로 변환')
             X['CGPA'] = df['CGPA']
-            X_color2= X.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'MH Point':'CGPA'])
-            st.dataframe(X_color2)
+            for k in range(X.shape[0]):
+                if X.loc[k, 'CGPA'] == "0-1.99":
+                    X.loc[k, 'CGPA'] = 1
+                elif X.loc[k, 'CGPA'] == "2.00-2.49":
+                    X.loc[k, 'CGPA'] = 2
+                elif X.loc[k, 'CGPA'] == "2.50-2.99":
+                    X.loc[k, 'CGPA'] = 3
+                elif X.loc[k, 'CGPA'] == "3.00-3.49":
+                    X.loc[k, 'CGPA'] = 4
+                elif X.loc[k, 'CGPA'] == "3.50-4.00":
+                    X.loc[k, 'CGPA'] = 5
 
-            X_mhp_cgpa = X.loc[:,'MH Point':'CGPA']
-            st.dataframe(X_mhp_cgpa, height=220, width=860)
+            X_color33= X.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'CGPA':'CGPA'])
+            st.dataframe(X_color33)
 
-            # column_list = X_mhp_cgpa.columns[:]
-            # X_mhp_cgpa1 = X_mhp_cgpa['CGPA'].sort_values().unique()
-        
-            # st.dataframe(X_mhp_cgpa1, height=220, width=860)
-            
-            # fig8 = plt.figure()
-            # sns.heatmap(data= X[column_list].corr(), cbar=True, annot=True, vmin=-1, vmax=1, cmap='coolwarm', fmt='.2f', linewidths= 0.5)
-            # st.pyplot(fig8)
+            st.markdown(line3, unsafe_allow_html=True)
+
+            st.write('▼ '+'CGPA 점수 컬럼명 변경')
+            X.columns = X.columns.str.replace("0-1.99", "CGPA1")
+            X.columns = X.columns.str.replace("2.00-2.49", "CGPA2")
+            X.columns = X.columns.str.replace("2.50-2.99", "CGPA3")
+            X.columns = X.columns.str.replace("3.00-3.49", "CGPA4")
+            X.columns = X.columns.str.replace("3.50-4.00", "CGPA5")
+            st.dataframe(X)
+
+            # X_color2= X.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'MH Point':'CGPA'])
+            # st.dataframe(X_color2)
+
+            # X_mhp_cgpa = X.loc[:,'MH Point':]
+            # st.dataframe(X_mhp_cgpa, height=220, width=860)
+         
+            # fig88 = plt.figure()
+            # sns.heatmap(data= X_mhp_cgpa.corr(), cbar=True, annot=True, vmin=-1, vmax=1, cmap='coolwarm', fmt='.2f', linewidths= 0.5)
+            # st.pyplot(fig88)
+            st.markdown(line3, unsafe_allow_html=True)
 
             st.write('▼ '+'상관계수 확인')
             X_corr = X.corr()
@@ -359,7 +382,8 @@ def run_app_eda() :
             # st.pyplot(fig12)
 
             st.markdown(line3, unsafe_allow_html=True)
-            
+
+            st.write('▼ '+'원하는 칼럼만 선택하여 상관분석하기')
             column_list = st.multiselect('상관분석하고 싶은 항목 선택', X.columns[:])
             if len(column_list) <= 1 : 
                 st.write('2개 이상의 컬럼을 선택하세요.')
@@ -368,8 +392,10 @@ def run_app_eda() :
                 sns.heatmap(data= X[column_list].corr(), cbar=True, annot=True, vmin=-1, vmax=1, cmap='coolwarm', fmt='.2f', linewidths= 0.5)
                 st.pyplot(fig12)
 
+            st.markdown(line3, unsafe_allow_html=True)
+
             st.write('▼ '+'성적과 정신건강과의 상관계수를 따로 확인')
-            X_mh_cgpa_corr = X[['0 - 1.99','2.00 - 2.49','2.50 - 2.99','3.00 - 3.49','Depression','Anxiety','Panic attack','MH Point']].corr()
+            X_mh_cgpa_corr = X[['CGPA1','CGPA2','CGPA3','CGPA4', 'CGPA5', 'CGPA', 'Depression','Anxiety','Panic attack','MH Point']].corr()
             fig13, ax = plt.subplots(figsize=(16,12))
             mask = np.zeros_like(X_mh_cgpa_corr)
             mask[np.triu_indices_from(mask)] = True
@@ -387,26 +413,12 @@ def run_app_eda() :
             # gr.set_facecolor('#f8f9fb')
             st.pyplot(fig13)
 
-            # df2= preprocess_inputs(df)
-            #     if st.checkbox('전체 컬럼 상관관계 분석') == True: 
-            #         st.dataframe(df2.corr())
-            #         fig = plt.figure()
-            #         sns.heatmap(data = df2.corr(), annot=True, 
-            #         fmt = '.2f', linewidths=.5, cmap='Blues')
-            #         st.pyplot(fig)
-            #     if st.checkbox('선택 컬럼 상관관계 분석') == True:
-            #         column_list = st.multiselect('상관분석 하고싶은 컬럼을 선택하세요.', df.columns[:])
-            #         if len(column_list) <= 1:
-            #             st.warning('2개 이상 선택하세요')
-            #         else:
-            #             fig2 = plt.figure()
-            #             sns.heatmap(data=df2[column_list].corr(),fmt='.2f',linewidths=0.5, annot = True, vmin = -1, vmax = 1,cmap='coolwarm')
-            #             st.pyplot(fig2)
 
         st.markdown(line2, unsafe_allow_html=True)
        
         if st.checkbox('회귀분석 Linear regression', value=True) :
-            st.write('▼ '+'회귀분석을 위해 조사의 고정 조건인 요일과 날짜 시간 데이터 삭제')
-            X_drop = X.drop(['Time','2020-07-13','2020-07-18','2020-08-07','2020-09-07','Hour', '금요일', '토요일', '월요일'], axis =1)
-            st.dataframe(X_drop)
+            pass
             
+
+
+
