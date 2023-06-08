@@ -301,43 +301,6 @@ def run_app_eda() :
             # st.pyplot(fig8)
 
 
-            fig6 = plt.figure()
-            sb.countplot(data=X_mhp_cgpa, x='CGPA')
-            plt.xticks(rotation=45)
-            plt.gca().spines['top'].set_visible(False) 
-            plt.gca().spines['right'].set_visible(False) 
-            plt.gca().spines['left'].set_visible(False)
-            plt.gca().set_facecolor('#f5f5f5')
-            st.pyplot(fig6)
-            
-            #X_train = [:, '']
-            
-            column_list = st.multiselect('상관분석하고 싶은 항목 선택', X_corr.columns[:])
-            if len(column_list) <= 1 : 
-                st.write('2개 이상의 컬럼을 선택하세요.')
-            elif len(column_list) >= 2 : 
-                fig5 = plt.figure()
-                sns.heatmap(data= X_corr[column_list], cbar=True, annot=True, vmin=-1, vmax=1, cmap='coolwarm', fmt='.2f', linewidths= 0.5)
-                st.pyplot(fig5)
-
-
-            # df2= preprocess_inputs(df)
-            #     if st.checkbox('전체 컬럼 상관관계 분석') == True: 
-            #         st.dataframe(df2.corr())
-            #         fig = plt.figure()
-            #         sns.heatmap(data = df2.corr(), annot=True, 
-            #         fmt = '.2f', linewidths=.5, cmap='Blues')
-            #         st.pyplot(fig)
-            #     if st.checkbox('선택 컬럼 상관관계 분석') == True:
-            #         column_list = st.multiselect('상관분석 하고싶은 컬럼을 선택하세요.', df.columns[:])
-            #         if len(column_list) <= 1:
-            #             st.warning('2개 이상 선택하세요')
-            #         else:
-            #             fig2 = plt.figure()
-            #             sns.heatmap(data=df2[column_list].corr(),fmt='.2f',linewidths=0.5, annot = True, vmin = -1, vmax = 1,cmap='coolwarm')
-            #             st.pyplot(fig2)
-       
-
             st.write('▼ '+'상관계수 확인')
             X_corr = X.corr()
             fig11, ax = plt.subplots(figsize=(16,12))
@@ -373,12 +336,12 @@ def run_app_eda() :
                                     ('font-size', '12pt')])
             ]
             cmap = cmap=sns.diverging_palette(5, 250, as_cmap=True)
-            X_corr3 = X_corr.style.background_gradient(cmap, axis=1)\
+            X_corr2 = X_corr.style.background_gradient(cmap, axis=1)\
                 .set_properties(**{'max-width': '80px', 'font-size': '1pt'})\
                 .set_caption("Hover to magnify")\
                 .format(precision=2)\
                 .set_table_styles(magnify())
-            st.dataframe(X_corr3)
+            st.dataframe(X_corr2)
 
             # np.ones_like(X_corr)
             # mask = np.triu(np.ones_like(X_corr))
@@ -392,3 +355,29 @@ def run_app_eda() :
             # st.pyplot(fig12)
 
             st.markdown(line3, unsafe_allow_html=True)
+            
+            column_list = st.multiselect('상관분석하고 싶은 항목 선택', X_corr.columns[:])
+            if len(column_list) <= 1 : 
+                st.write('2개 이상의 컬럼을 선택하세요.')
+            elif len(column_list) >= 2 : 
+                fig5 = plt.figure()
+                sns.heatmap(data= X_corr[column_list], cbar=True, annot=True, vmin=-1, vmax=1, cmap='coolwarm', fmt='.2f', linewidths= 0.5)
+                st.pyplot(fig5)
+
+
+            # df2= preprocess_inputs(df)
+            #     if st.checkbox('전체 컬럼 상관관계 분석') == True: 
+            #         st.dataframe(df2.corr())
+            #         fig = plt.figure()
+            #         sns.heatmap(data = df2.corr(), annot=True, 
+            #         fmt = '.2f', linewidths=.5, cmap='Blues')
+            #         st.pyplot(fig)
+            #     if st.checkbox('선택 컬럼 상관관계 분석') == True:
+            #         column_list = st.multiselect('상관분석 하고싶은 컬럼을 선택하세요.', df.columns[:])
+            #         if len(column_list) <= 1:
+            #             st.warning('2개 이상 선택하세요')
+            #         else:
+            #             fig2 = plt.figure()
+            #             sns.heatmap(data=df2[column_list].corr(),fmt='.2f',linewidths=0.5, annot = True, vmin = -1, vmax = 1,cmap='coolwarm')
+            #             st.pyplot(fig2)
+       
