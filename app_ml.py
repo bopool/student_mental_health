@@ -43,7 +43,7 @@ def run_app_ml() :
     # 실제로 예측할 때도 '학습 시킬 때 사용한 항목'을 입력해야 한다.     
 
     new_data = np.array([gender,age,course,marital_status,depression,anxiety,panic_attack,mh_treatment])
-    new_data = new_data.reshape(1, 12)
+    new_data = new_data.reshape(1, 10)
     
     regressor = joblib.load('model/regressor.pkl')
     y_pred = regressor.predict(new_data)
