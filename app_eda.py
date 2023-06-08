@@ -255,6 +255,9 @@ def run_app_eda() :
 
         st.markdown(line2, unsafe_allow_html=True)
 
+        for k in range(df.shape[0]):
+            df.loc[k,'CGPA'] = df.loc[k,'CGPA'].strip()
+
         if st.subheader('상관분석') : 
             X_box = pd.DataFrame() # 빈 데이터프레임 생성. 
             # data가 가공된 분석에 필요한 모든 column을 포함하는 dataframe 으로 만들어 줄 것임
@@ -361,7 +364,7 @@ def run_app_eda() :
                 st.write('2개 이상의 컬럼을 선택하세요.')
             elif len(column_list) >= 2 : 
                 fig5 = plt.figure()
-                sns.heatmap(data= column_list, cbar=True, annot=True, vmin=-1, vmax=1, cmap='coolwarm', fmt='.2f', linewidths= 0.5)
+                sns.heatmap(data= X_corr[column_list], cbar=True, annot=True, vmin=-1, vmax=1, cmap='coolwarm', fmt='.2f', linewidths= 0.5)
                 st.pyplot(fig5)
 
 
