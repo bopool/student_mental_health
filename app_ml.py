@@ -23,7 +23,7 @@ def run_app_ml() :
     course = st.number_input('● 전공을 선택하세요.', 1, 100)
     st.markdown(line3, unsafe_allow_html=True)
 
-    gender = st.radio('● 해당되는 학년을 선택하세요.', ['1학년', '2학년', '3학년', '4학년'])
+    year = st.radio('● 해당되는 학년을 선택하세요.', ['1학년', '2학년', '3학년', '4학년'])
     st.markdown(line3, unsafe_allow_html=True)
 
     marital_status = st.radio('● 혼인 여부를 선택하세요.', ['미혼', '기혼'])
@@ -42,22 +42,22 @@ def run_app_ml() :
     st.markdown(line3, unsafe_allow_html=True)
     # 실제로 예측할 때도 '학습 시킬 때 사용한 항목'을 입력해야 한다.     
 
-    new_data = np.array([gender,age,course,marital_status,depression,anxiety,panic_attack,mh_treatment])
-    new_data = new_data.reshape(1, 8)
+    # new_data = np.array([gender,age,course,marital_status,depression,anxiety,panic_attack,mh_treatment])
+    # new_data = new_data.reshape(1, 8)
     
-    regressor = joblib.load('model/regressor.pkl')
-    y_pred = regressor.predict(new_data)
+    # regressor = joblib.load('model/regressor.pkl')
+    # y_pred = regressor.predict(new_data)
         
     # # 버튼을 누르면 예측한 금액을 표시한다.
     # if st.button('성적 예측'):
     #     print(y_pred)
-    #     # print(y_pred[0])  
-    #     # print(round(y_pred[0]))
-    #     # price = round(y_pred[0])
-    #     # print(str(price) + '')
-    #     # print(f'{price}')
-    #     # print('{}'.format(price))
-    #     # st.text(f'{price}')
+    #     print(y_pred[0])  
+    #     print(round(y_pred[0]))
+    #     price = round(y_pred[0])
+    #     print(str(price) + '')
+    #     print(f'{price}')
+    #     print('{}'.format(price))
+    #     st.text(f'{price}')
         
 
 
