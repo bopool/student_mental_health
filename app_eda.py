@@ -303,7 +303,6 @@ def run_app_eda() :
             # sns.heatmap(data= X[column_list].corr(), cbar=True, annot=True, vmin=-1, vmax=1, cmap='coolwarm', fmt='.2f', linewidths= 0.5)
             # st.pyplot(fig8)
 
-
             st.write('▼ '+'상관계수 확인')
             X_corr = X.corr()
             fig11, ax = plt.subplots(figsize=(16,12))
@@ -359,14 +358,32 @@ def run_app_eda() :
 
             st.markdown(line3, unsafe_allow_html=True)
             
-            column_list = st.multiselect('상관분석하고 싶은 항목 선택', X_corr.columns[:])
+            column_list = st.multiselect('상관분석하고 싶은 항목 선택', X.columns[:])
             if len(column_list) <= 1 : 
                 st.write('2개 이상의 컬럼을 선택하세요.')
             elif len(column_list) >= 2 : 
                 fig5 = plt.figure()
-                sns.heatmap(data= X_corr[column_list], cbar=True, annot=True, vmin=-1, vmax=1, cmap='coolwarm', fmt='.2f', linewidths= 0.5)
+                sns.heatmap(data= X[column_list].corr(), cbar=True, annot=True, vmin=-1, vmax=1, cmap='coolwarm', fmt='.2f', linewidths= 0.5)
                 st.pyplot(fig5)
 
+            st.write('▼ '+'성적과 정신건강과의 상관계수 확인')
+            X_corr_cgpa = 
+            fig11, ax = plt.subplots(figsize=(16,12))
+            mask = np.zeros_like(X_corr)
+            mask[np.triu_indices_from(mask)] = True
+            sns.heatmap(X_corr, 
+                cmap = 'RdYlBu_r', 
+                annot_kws={"size": 18},
+                annot = True,   # 실제 값을 표시한다
+                mask = mask,      # 표시하지 않을 마스크 부분을 지정한다
+                linewidths=.5,  # 경계면 실선으로 구분하기
+                #cbar_kws={"shrink": }, 
+                vmin = -1, vmax = 1, 
+                fmt='.1f',
+                xticklabels=1, yticklabels=1
+            )
+            # gr.set_facecolor('#f8f9fb')
+            st.pyplot(fig11)
 
             # df2= preprocess_inputs(df)
             #     if st.checkbox('전체 컬럼 상관관계 분석') == True: 
@@ -385,4 +402,4 @@ def run_app_eda() :
             #             st.pyplot(fig2)
        
         if st.checkbox('회귀분석') :
-             pass
+            st.write('▼ '+'회귀분석을 위한 불필요한 데이터 삭제')
