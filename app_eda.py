@@ -245,12 +245,8 @@ def run_app_eda() :
         df_col_f= df_col.pivot_table(columns = df_col.index, values= df_col, sort=False)
         st.dataframe(df_col_f, width=860)
 
-        st.markdown(line3, unsafe_allow_html=True)
-
         st.write(('▼ '+'{} 컬럼의 최대 데이터 : {} 그룹 ( {} 명 / {} % )').format(column, df_c.max(), df.loc[df_c == df_c.max(), ].shape[0], df.loc[df_c == df_c.max(), ].shape[0] / df.shape[0] * 100))
         st.dataframe(df.loc[df[column] == df[column].max(), ]) # 변수로 처리하는 것. 일반화 
-
-        st.markdown(line3, unsafe_allow_html=True)
 
         st.write(('▼ '+'{} 컬럼의 최소 데이터 : {} 그룹 ( {} 명 / {} % )').format(column, df_c.min(), df.loc[df_c == df_c.min(), ].shape[0], df.loc[df_c == df_c.min(), ].shape[0] / df.shape[0] * 100))
         st.dataframe(df.loc[df[column] == df[column].min(), ]) 
@@ -260,165 +256,186 @@ def run_app_eda() :
         
         df['CGPA'] = df['CGPA'].str.replace(" ", "")
 
-        if st.checkbox('상관분석', value=True) : 
-            X_box = pd.DataFrame() # 빈 데이터프레임 생성. 
-            # data가 가공된 분석에 필요한 모든 column을 포함하는 dataframe 으로 만들어 줄 것임
+    if st.checkbox('상관분석', value=True) : 
+        X_box = pd.DataFrame() # 빈 데이터프레임 생성. 
+        # data가 가공된 분석에 필요한 모든 column을 포함하는 dataframe 으로 만들어 줄 것임
 
-            for name in df.columns:
-                if df[name].dtype == object: # 문자열 트루면 
-                    if df[name].nunique() <= 2 or df[name].nunique() > 6:
-                        label_encoder = LabelEncoder()
-                        X_box[name] = label_encoder.fit_transform(df[name])
-                    else:
-                        col_names = sorted(df[name].unique())
-                        X_box[col_names] = pd.get_dummies(df[name], columns = col_names)
+        for name in df.columns:
+            if df[name].dtype == object: # 문자열 트루면 
+                if df[name].nunique() <= 2 or df[name].nunique() > 6:
+                    label_encoder = LabelEncoder()
+                    X_box[name] = label_encoder.fit_transform(df[name])
+                else:
+                    col_names = sorted(df[name].unique())
+                    X_box[col_names] = pd.get_dummies(df[name], columns = col_names)
 
-                else: # 문자열 트루 아니면 
-                    X_box[name] = df[name]
-            
-            X = X_box.loc[:, 'Gender':'MH Treatment']
-            X['MH Point'] = X.loc[:, 'Depression':'MH Treatment'].sum(axis=1)
- 
-            st.write('▼ '+'요일, 날짜, 시간 정보 삭제 + Mental Health 관련 데이터 합산 포인트 컬럼 MH Point 추가')
-            X_color1= X.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'MH Point':'MH Point'])
-            st.dataframe(X_color1)
+            else: # 문자열 트루 아니면 
+                X_box[name] = df[name]
+        
+        X = X_box.loc[:, 'Gender':'MH Treatment']
+        X['MH Point'] = X.loc[:, 'Depression':'MH Treatment'].sum(axis=1)
 
-            st.markdown(line3, unsafe_allow_html=True)
+        st.write('▼ '+'요일, 날짜, 시간 정보 삭제 + Mental Health 관련 데이터 합산 포인트 컬럼 MH Point 추가')
+        X_color1= X.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'MH Point':'MH Point'])
+        st.dataframe(X_color1)
 
-            st.write('▼ '+'각 컬럼별 그룹 컬럼화')
-            st.dataframe(X)
+        st.markdown(line3, unsafe_allow_html=True)
 
-            st.markdown(line3, unsafe_allow_html=True)
+        st.write('▼ '+'각 컬럼별 그룹 컬럼화')
+        st.dataframe(X)
 
-            st.write('▼ '+'CGPA 컬럼값 다시 추가, 서열-정수 데이터로 변환')
-            X['CGPA'] = df['CGPA']
-            for k in range(X.shape[0]):
-                if X.loc[k, 'CGPA'] == "0-1.99":
-                    X.loc[k, 'CGPA'] = 1
-                elif X.loc[k, 'CGPA'] == "2.00-2.49":
-                    X.loc[k, 'CGPA'] = 2
-                elif X.loc[k, 'CGPA'] == "2.50-2.99":
-                    X.loc[k, 'CGPA'] = 3
-                elif X.loc[k, 'CGPA'] == "3.00-3.49":
-                    X.loc[k, 'CGPA'] = 4
-                elif X.loc[k, 'CGPA'] == "3.50-4.00":
-                    X.loc[k, 'CGPA'] = 5
+        st.markdown(line3, unsafe_allow_html=True)
 
-            X_color33= X.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'CGPA':'CGPA'])
-            st.dataframe(X_color33)
+        st.write('▼ '+'CGPA 컬럼 다시 추가, 서열(정수) 데이터로 변환')
+        X['CGPA'] = df['CGPA']
+        X = X.replace("0-1.99", 0)
+        X = X.replace("2.00-2.49", 1)
+        X = X.replace("2.50-2.99", 2)  
+        X = X.replace("3.00-3.49", 3)
+        X = X.replace("3.50-4.00", 4)
 
-            st.markdown(line3, unsafe_allow_html=True)
+        X_color33= X.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'CGPA'])
+        st.dataframe(X_color33)
 
-            st.write('▼ '+'CGPA 점수 컬럼명 변경')
-            X.columns = X.columns.str.replace("0-1.99", "CGPA1")
-            X.columns = X.columns.str.replace("2.00-2.49", "CGPA2")
-            X.columns = X.columns.str.replace("2.50-2.99", "CGPA3")
-            X.columns = X.columns.str.replace("3.00-3.49", "CGPA4")
-            X.columns = X.columns.str.replace("3.50-4.00", "CGPA5")
-            st.dataframe(X)
+        st.markdown(line3, unsafe_allow_html=True)
 
-            # X_color2= X.style.applymap(draw_color_cell, color='#ffffb3', subset=pd.IndexSlice[:,'MH Point':'CGPA'])
-            # st.dataframe(X_color2)
+        st.write('▼ '+'CGPA 점수 컬럼명 변경')
+        X.columns = X.columns.str.replace("0-1.99", "CGPA1")
+        X.columns = X.columns.str.replace("2.00-2.49", "CGPA2")
+        X.columns = X.columns.str.replace("2.50-2.99", "CGPA3")
+        X.columns = X.columns.str.replace("3.00-3.49", "CGPA4")
+        X.columns = X.columns.str.replace("3.50-4.00", "CGPA5")
+        st.dataframe(X)
 
-            # X_mhp_cgpa = X.loc[:,'MH Point':]
-            # st.dataframe(X_mhp_cgpa, height=220, width=860)
-         
-            # fig88 = plt.figure()
-            # sns.heatmap(data= X_mhp_cgpa.corr(), cbar=True, annot=True, vmin=-1, vmax=1, cmap='coolwarm', fmt='.2f', linewidths= 0.5)
-            # st.pyplot(fig88)
-            st.markdown(line3, unsafe_allow_html=True)
+        st.markdown(line3, unsafe_allow_html=True)
 
-            st.write('▼ '+'상관계수 확인')
-            X_corr = X.corr()
-            fig11, ax = plt.subplots(figsize=(16,12))
-            mask = np.zeros_like(X_corr)
-            mask[np.triu_indices_from(mask)] = True
-            sns.heatmap(X_corr, 
-                cmap = 'RdYlBu_r', 
-                annot_kws={"size": 18},
-                annot = True,   # 실제 값을 표시한다
-                mask = mask,      # 표시하지 않을 마스크 부분을 지정한다
-                linewidths=.5,  # 경계면 실선으로 구분하기
-                cbar_kws={"shrink": .8}, 
-                vmin = -1, vmax = 1, 
-                fmt='.1f',
-                xticklabels=1, yticklabels=1
-            )
-            # gr.set_facecolor('#f8f9fb')
-            st.pyplot(fig11)
-            
-            # cm = sns.light_palette("#a275ac", as_cmap=True)
-            # X_corr2 = X_corr.style.background_gradient(cmap=cm)
-            # st.dataframe(X_corr2)
+        X_corr = X.corr()
+        st.write('▼ '+'상관계수 확인')
+        fig11, ax = plt.subplots(figsize=(16,12))
+        mask = np.zeros_like(X_corr)
+        mask[np.triu_indices_from(mask)] = True
+        sns.heatmap(X_corr, 
+            cmap = 'RdYlBu_r', 
+            annot_kws={"size": 18},
+            annot = True,   # 실제 값을 표시한다
+            mask = mask,      # 표시하지 않을 마스크 부분을 지정한다
+            linewidths=.5,  # 경계면 실선으로 구분하기
+            cbar_kws={"shrink": .8}, 
+            vmin = -1, vmax = 1, 
+            fmt='.1f',
+            xticklabels=1, yticklabels=1
+        )
+        # gr.set_facecolor('#f8f9fb')
+        st.pyplot(fig11)
+        
+        # cm = sns.light_palette("#a275ac", as_cmap=True)
+        # X_corr2 = X_corr.style.background_gradient(cmap=cm)
+        # st.dataframe(X_corr2)
 
-            def magnify():
-                return [dict(selector="th",
-                            props=[("font-size", "4pt")]),
-                        dict(selector="td",
-                            props=[('padding', "0em 0em")]),
-                        dict(selector="th:hover",
-                            props=[("font-size", "12pt")]),
-                        dict(selector="tr:hover td:hover",
-                            props=[('max-width', '200px'),
-                                    ('font-size', '12pt')])
-            ]
-            cmap = cmap=sns.diverging_palette(5, 250, as_cmap=True)
-            X_corr2 = X_corr.style.background_gradient(cmap, axis=1)\
-                .set_properties(**{'max-width': '80px', 'font-size': '1pt'})\
-                .set_caption("Hover to magnify")\
-                .format(precision=2)\
-                .set_table_styles(magnify())
-            st.dataframe(X_corr2)
+        def magnify():
+            return [dict(selector="th",
+                        props=[("font-size", "4pt")]),
+                    dict(selector="td",
+                        props=[('padding', "0em 0em")]),
+                    dict(selector="th:hover",
+                        props=[("font-size", "12pt")]),
+                    dict(selector="tr:hover td:hover",
+                        props=[('max-width', '200px'),
+                                ('font-size', '12pt')])
+        ]
+        cmap = cmap=sns.diverging_palette(5, 250, as_cmap=True)
+        X_corr2 = X_corr.style.background_gradient(cmap, axis=1)\
+            .set_properties(**{'max-width': '80px', 'font-size': '1pt'})\
+            .set_caption("Hover to magnify")\
+            .format(precision=2)\
+            .set_table_styles(magnify())
+        st.dataframe(X_corr2)
 
-            # np.ones_like(X_corr)
-            # mask = np.triu(np.ones_like(X_corr))
-            # fig12, ax = plt.subplots(figsize=(10, 8), facecolor='#f8f9fb')
-            # mask = np.triu(np.ones_like(X_corr))
-            # mask = mask[1:, :-1]
-            # corr = X_corr.iloc[1:,:-1].copy()
-            # sb.heatmap(corr, mask=mask, annot=True, fmt=".2f", cmap='Blues',
-            #         vmin=-1, vmax=1, cbar_kws={"shrink": .8})
-            # plt.yticks(rotation=0)
-            # st.pyplot(fig12)
+        st.markdown(line3, unsafe_allow_html=True)
 
-            st.markdown(line3, unsafe_allow_html=True)
+        st.write('▼ '+'원하는 칼럼만 선택하여 상관분석하기')
+        column_list = st.multiselect('상관분석하고 싶은 항목 선택', X.columns[:])
+        if len(column_list) <= 1 : 
+            st.write('2개 이상의 컬럼을 선택하세요.')
+        elif len(column_list) >= 2 : 
+            fig12 = plt.figure()
+            sns.heatmap(data= X[column_list].corr(), cbar=True, annot=True, vmin=-1, vmax=1, cmap='coolwarm', fmt='.2f', linewidths= 0.5)
+            st.pyplot(fig12)
 
-            st.write('▼ '+'원하는 칼럼만 선택하여 상관분석하기')
-            column_list = st.multiselect('상관분석하고 싶은 항목 선택', X.columns[:])
-            if len(column_list) <= 1 : 
-                st.write('2개 이상의 컬럼을 선택하세요.')
-            elif len(column_list) >= 2 : 
-                fig12 = plt.figure()
-                sns.heatmap(data= X[column_list].corr(), cbar=True, annot=True, vmin=-1, vmax=1, cmap='coolwarm', fmt='.2f', linewidths= 0.5)
-                st.pyplot(fig12)
+        st.markdown(line3, unsafe_allow_html=True)
 
-            st.markdown(line3, unsafe_allow_html=True)
+        st.write('▼ '+'성적과 정신건강의 상관계수')
+        st.write('성적이 높을 수록 우울과 공황발작의 경험이 있는 경우가 좀 더 많아 보이지만, 0.3 이하의 작은 수치로 직접적인 연관은 크지 않아 보인다.')
+        X_mh_cgpa_corr = X[['CGPA1','CGPA2','CGPA3','CGPA4', 'CGPA5', 'Depression','Anxiety','Panic attack']].corr()
+        fig13, ax = plt.subplots(figsize=(16,12))
+        mask = np.zeros_like(X_mh_cgpa_corr)
+        mask[np.triu_indices_from(mask)] = True
+        sns.heatmap(X_mh_cgpa_corr, 
+            cmap = 'RdYlBu_r', 
+            annot_kws={"size": 16},
+            annot = True,   # 실제 값을 표시한다
+            mask = mask,      # 표시하지 않을 마스크 부분을 지정한다
+            linewidths=.5,  # 경계면 실선으로 구분하기
+            cbar_kws={"shrink": .8}, 
+            vmin = -1, vmax = 1, 
+            fmt='.1f',
+            xticklabels=1, yticklabels=1
+        )
+        # gr.set_facecolor('#f8f9fb')
+        st.pyplot(fig13)
 
-            st.write('▼ '+'성적과 정신건강과의 상관계수를 따로 확인')
-            X_mh_cgpa_corr = X[['CGPA1','CGPA2','CGPA3','CGPA4', 'CGPA5', 'CGPA', 'Depression','Anxiety','Panic attack','MH Point']].corr()
-            fig13, ax = plt.subplots(figsize=(16,12))
-            mask = np.zeros_like(X_mh_cgpa_corr)
-            mask[np.triu_indices_from(mask)] = True
-            sns.heatmap(X_mh_cgpa_corr, 
-                cmap = 'RdYlBu_r', 
-                annot_kws={"size": 16},
-                annot = True,   # 실제 값을 표시한다
-                mask = mask,      # 표시하지 않을 마스크 부분을 지정한다
-                linewidths=.5,  # 경계면 실선으로 구분하기
-                cbar_kws={"shrink": .8}, 
-                vmin = -1, vmax = 1, 
-                fmt='.1f',
-                xticklabels=1, yticklabels=1
-            )
-            # gr.set_facecolor('#f8f9fb')
-            st.pyplot(fig13)
+        st.markdown(line3, unsafe_allow_html=True)
+
+        st.write('▼ '+'결혼과 정신건강의 상관계수')
+        st.write('학생들의 전체 데이터의 상관관계에서 보았을 때 우울과 혼인여부의 상관관계가 가장 높았다.')
+        X_mh_cgpa_corr = X[['Marital status','Depression','Anxiety','Panic attack']].corr()
+        fig13_1, ax = plt.subplots(figsize=(16,12))
+        mask = np.zeros_like(X_mh_cgpa_corr)
+        mask[np.triu_indices_from(mask)] = True
+        sns.heatmap(X_mh_cgpa_corr, 
+            cmap = 'RdYlBu_r', 
+            annot_kws={"size": 16},
+            annot = True,   # 실제 값을 표시한다
+            mask = mask,      # 표시하지 않을 마스크 부분을 지정한다
+            linewidths=.5,  # 경계면 실선으로 구분하기
+            cbar_kws={"shrink": .8}, 
+            vmin = -1, vmax = 1, 
+            fmt='.1f',
+            xticklabels=1, yticklabels=1
+        )
+        # gr.set_facecolor('#f8f9fb')
+        st.pyplot(fig13_1)
+
+    st.markdown(line2, unsafe_allow_html=True)
+    
+    if st.checkbox('머신러닝을 위한 데이터 추가 가공들 ', value=True) :
+        st.write('▼ '+' 현재 데이터')
+        st.dataframe(X)
+
+        st.markdown(line3, unsafe_allow_html=True)
+
+        st.write('▼ '+'컬럼명 띄어쓰기 "_" 로 변경, 컬럼명 전체 소문자로 변경')
+        X.columns = X.columns.str.replace(" ", "_")
+        X.rename(mapper=str.lower, axis='columns', inplace=True)
+        st.dataframe(X)
+
+        st.markdown(line3, unsafe_allow_html=True)
+
+        st.write('▼ '+' year1 ~ year4 합친 year 컬럼 생성 및 value는 0부터 시작하도록 변경')
+        X['year'] = X['year1']*1 + X['year2']*2 + X['year3']*3 + X['year4']*4
+        X['year'] = X['year'] - 1
+        st.dataframe(X)
+
+        st.markdown(line3, unsafe_allow_html=True)
+
+        st.write('▼ '+'중복 정보 등 머신러닝을 위한 컬럼만 선택')
+        X_drop = X.drop(['year1','year2','year3','year4','cgpa1','cgpa2','cgpa3','cgpa4','cgpa5', 'mh_point'], axis=1)
+        st.dataframe(X_drop)
+        st.dataframe(X_drop.describe())
 
 
-        st.markdown(line2, unsafe_allow_html=True)
-       
-        # if st.checkbox('회귀분석 Linear regression', value=True) :
-        #     pass
-            
+
+
 
 
 
