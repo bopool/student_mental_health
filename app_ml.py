@@ -87,7 +87,7 @@ def run_app_ml() :
     if st.button('성적 예측'):
         print(y_pred)
         print(y_pred[0])  
-        print(round(y_pred[0]))
+        print(floor(y_pred[0]))
         pred_cgpa = floor(y_pred[0])
         cgpa_ls = ["0 - 1.99", "2.00 - 2.49", "2.50-2.99", "3.00-3.49", "3.50-4.00"]
         for n in range(5):
