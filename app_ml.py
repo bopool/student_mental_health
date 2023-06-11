@@ -1,3 +1,4 @@
+from sklearn.linear_model import LinearRegression
 import streamlit as st
 import numpy as np
 import joblib
