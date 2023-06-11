@@ -26,7 +26,7 @@ def run_app_ml() :
     age = st.number_input('● 나이를 입력하세요', 18, 100)
     st.markdown(line3, unsafe_allow_html=True)
 
-    course = st.radio('● 전공을 선택하세요.', ['Engineering', 'Islamic education', 'BIT', 'Laws', 'Mathemathics',
+    course = st.selectbox('● 전공을 선택하세요.', ['Engineering', 'Islamic education', 'BIT', 'Laws', 'Mathemathics',
        'Pendidikan islam', 'BCS', 'Human Resources', 'Irkhs',
        'Psychology', 'KENMS', 'Accounting ', 'ENM', 'Marine science',
        'KOE', 'Banking Studies', 'Business Administration', 'Law',
@@ -53,7 +53,7 @@ def run_app_ml() :
             course = c
     st.markdown(line3, unsafe_allow_html=True)
 
-    year = st.radio('● 해당되는 학년을 선택하세요.', ['1학년', '2학년', '3학년', '4학년'])
+    year = st.selectbox('● 해당되는 학년을 선택하세요.', ['1학년', '2학년', '3학년', '4학년'])
     if year == '1학년':
         year = 0
     elif year == '2학년':
