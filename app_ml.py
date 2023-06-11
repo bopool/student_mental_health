@@ -16,7 +16,12 @@ def run_app_ml() :
     st.markdown(line3, unsafe_allow_html=True)
 
     gender = st.radio('● 성별을 선택하세요.', ['남자', '여자'])
+    if gender == '남자':
+        gender = 0
+    else:
+        gender = 1
     st.markdown(line3, unsafe_allow_html=True)
+    
 
     age = st.number_input('● 나이를 입력하세요', 18, 100)
     st.markdown(line3, unsafe_allow_html=True)
@@ -25,21 +30,50 @@ def run_app_ml() :
     st.markdown(line3, unsafe_allow_html=True)
 
     year = st.radio('● 해당되는 학년을 선택하세요.', ['1학년', '2학년', '3학년', '4학년'])
+    if year == '1학년':
+        year = 0
+    elif year == '2학년':
+        year = 1
+    elif year == '3학년':
+        year = 2
+    elif year == '4학년':
+        year = 13
+    
     st.markdown(line3, unsafe_allow_html=True)
 
     marital_status = st.radio('● 혼인 여부를 선택하세요.', ['미혼', '기혼'])
+    if marital_status == '미혼':
+        marital_status = 0
+    else:
+        marital_status = 1
     st.markdown(line3, unsafe_allow_html=True)
 
     depression = st.radio("● 최근 우울 증상을 느끼고 있나요?", ['예', '아니오'])
+    if depression == '예':
+        depression = 0
+    else:
+        depression = 1
     st.markdown(line3, unsafe_allow_html=True)
 
     anxiety = st.radio("● 최근 불안 증상을 느끼고 있나요?", ['예', '아니오'])
+    if anxiety == '예':
+        anxiety = 0
+    else:
+        anxiety = 1
     st.markdown(line3, unsafe_allow_html=True)
 
     panic_attack = st.radio("● 최근 공황발작 증상이 있었나요?", ['예', '아니오'])
+    if panic_attack == '예':
+        panic_attack = 0
+    else:
+        panic_attack = 1
     st.markdown(line3, unsafe_allow_html=True)
 
     mh_treatment = st.radio("● 정신건강과 관련한 진료를 받은 경험이 있나요?", ['예', '아니오'])
+    if mh_treatment == '예':
+        mh_treatment = 0
+    else:
+        mh_treatment = 1
     st.markdown(line3, unsafe_allow_html=True)
     # 실제로 예측할 때도 '학습 시킬 때 사용한 항목'을 입력해야 한다.     
 
