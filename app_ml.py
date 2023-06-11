@@ -42,13 +42,13 @@ def run_app_ml() :
     st.markdown(line3, unsafe_allow_html=True)
     # 실제로 예측할 때도 '학습 시킬 때 사용한 항목'을 입력해야 한다.     
 
-    new_data = np.array([gender, age, course, marital_status, depression, anxiety, panic_attack, mh_treatment, year])
+    new_data = np.array([gender, age, course, marital_status, depression, anxiety, panic_attack, mh_treatment, year], )
     new_data = new_data.reshape(1, 9)
     
-    regressor = joblib.load('model/regressor1.pkl')
+    regressor = joblib.load('model/regressor2.pkl')
     y_pred = regressor.predict(new_data)
         
-    # 버튼을 누르면 예측한 금액을 표시한다.
+    # 버튼을 누르면 예측한 정보를 표시한다.
     if st.button('성적 예측'):
         print(y_pred)
         print(y_pred[0])  
