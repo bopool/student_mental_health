@@ -90,7 +90,7 @@ def run_app_ml() :
         print(round(y_pred[0]))
         pred_cgpa = round(y_pred[0])
         # print(str(pred_cgp) + '')
-        print(f'예상 CGPA 점수는 {pred_cgp}점 입니다.')
+        print(f'예상 CGPA 점수는 {pred_cgpa}점 입니다.')
         # print('{}'.format(pred_cgp))
         # st.text(f'{pred_cgp}')
         
