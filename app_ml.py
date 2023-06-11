@@ -6,16 +6,17 @@ import joblib
 # 개발할 때는 각 필요한 위치를 찾아 오르락내리락하면서 작업을 진행해야 한다. cpu말고는 위에서 아래로 진행되는 것이 없다. 
 
 def run_app_ml() : 
+    st.write('<style>div.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
     line1 = '<div style="border-top:1px solid #006D64; width:100%; height:10px;"></div>'    
     st.markdown(line1, unsafe_allow_html=True)
     line2 = '<div style="border-top:1px solid #ddd; width:100%; height:40px; margin-top:20px;"></div>'    
     line3 = '<div style="border-top:0px dashed #ddd; width:100%; height:20px; margin-top:0px;"></div>'    
     line4 = '<div style="border-top:1px dashed #ddd; width:100%; height:30px; margin-top:10px;"></div>'    
 
-    st.subheader('정신 건강과 학교생활 정보를 통한 학점 예측')
+    st.subheader('정신 건강과 학교생활 정보를 통한 CGPA 점수 예측')
     st.markdown(line3, unsafe_allow_html=True)
 
-    gender = st.radio('● 성별을 선택하세요.', ['남자', '여자'])
+    gender = st.radio('● 성별을 선택하세요.', ['남자', '여자'], )
     if gender == '남자':
         gender = 0
     else:
@@ -106,7 +107,9 @@ def run_app_ml() :
     
     regressor = joblib.load('model/regressor2.pkl')
     y_pred = regressor.predict(new_data)
-        
+
+    st.markdown(line4, unsafe_allow_html=True)
+
     # 버튼을 누르면 예측한 정보를 표시한다.
     if st.button('CGPA 범위 예측'):
         pred_cgpa = round(y_pred[0])-1
