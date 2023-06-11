@@ -27,28 +27,8 @@ def run_app_ml() :
     age = st.number_input('● 나이를 입력하세요', 18, 100)
     st.markdown(line3, unsafe_allow_html=True)
 
-    course = st.selectbox('● 전공을 선택하세요.', ['Engineering', 'Islamic education', 'BIT', 'Laws', 'Mathemathics',
-       'Pendidikan islam', 'BCS', 'Human Resources', 'Irkhs',
-       'Psychology', 'KENMS', 'Accounting ', 'ENM', 'Marine science',
-       'KOE', 'Banking Studies', 'Business Administration', 'Law',
-       'KIRKHS', 'Usuluddin ', 'TAASL', 'Engine', 'ALA',
-       'Biomedical science', 'koe', 'Kirkhs', 'BENL', 'Benl', 'IT', 'CTS',
-       'engin', 'Econs', 'MHSC', 'Malcom', 'Kop', 'Human Sciences ',
-       'Biotechnology', 'Communication ', 'Diploma Nursing',
-       'Pendidikan Islam ', 'Radiography', 'psychology', 'Fiqh fatwa ',
-       'DIPLOMA TESL', 'Koe', 'Fiqh', 'Islamic Education', 'Nursing ',
-       'Pendidikan Islam'])
-    course_ls = ['Engineering', 'Islamic education', 'BIT', 'Laws', 'Mathemathics',
-       'Pendidikan islam', 'BCS', 'Human Resources', 'Irkhs',
-       'Psychology', 'KENMS', 'Accounting ', 'ENM', 'Marine science',
-       'KOE', 'Banking Studies', 'Business Administration', 'Law',
-       'KIRKHS', 'Usuluddin ', 'TAASL', 'Engine', 'ALA',
-       'Biomedical science', 'koe', 'Kirkhs', 'BENL', 'Benl', 'IT', 'CTS',
-       'engin', 'Econs', 'MHSC', 'Malcom', 'Kop', 'Human Sciences ',
-       'Biotechnology', 'Communication ', 'Diploma Nursing',
-       'Pendidikan Islam ', 'Radiography', 'psychology', 'Fiqh fatwa ',
-       'DIPLOMA TESL', 'Koe', 'Fiqh', 'Islamic Education', 'Nursing ',
-       'Pendidikan Islam']
+    course = st.selectbox('● 전공을 선택하세요.', ['Bit', 'Taasl', 'Diploma tesl', 'Communication', 'Human resources', 'It', 'Malcom', 'Usuluddin', 'Accounting', 'Laws', 'Kop', 'Kenms', 'Mathemathics', 'Biomedical science', 'Bcs', 'Law', 'Irkhs', 'Benl', 'Engin', 'Marine science', 'Fiqh fatwa', 'Cts', 'Biotechnology', 'Islamic education', 'Engineering', 'Econs', 'Diploma nursing', 'Koe', 'Mhsc', 'Enm', 'Fiqh', 'Ala', 'Psychology', 'Banking studies', 'Pendidikan islam', 'Human sciences', 'Radiography', 'Engine', 'Nursing', 'Kirkhs', 'Business administration'])
+    course_ls = ['Bit', 'Taasl', 'Diploma tesl', 'Communication', 'Human resources', 'It', 'Malcom', 'Usuluddin', 'Accounting', 'Laws', 'Kop', 'Kenms', 'Mathemathics', 'Biomedical science', 'Bcs', 'Law', 'Irkhs', 'Benl', 'Engin', 'Marine science', 'Fiqh fatwa', 'Cts', 'Biotechnology', 'Islamic education', 'Engineering', 'Econs', 'Diploma nursing', 'Koe', 'Mhsc', 'Enm', 'Fiqh', 'Ala', 'Psychology', 'Banking studies', 'Pendidikan islam', 'Human sciences', 'Radiography', 'Engine', 'Nursing', 'Kirkhs', 'Business administration']
     for c in range(len(course_ls)):
         if course == course_ls[c]:
             course = c
