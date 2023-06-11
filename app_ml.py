@@ -88,13 +88,16 @@ def run_app_ml() :
         print(y_pred)
         print(y_pred[0])  
         print(round(y_pred[0]))
-        pred_cgpa = round(y_pred[0])
+        pred_cgpa = floor(y_pred[0])
+        cgpa_ls = ["0 - 1.99", "2.00 - 2.49", "2.50-2.99", "3.00-3.49", "3.50-4.00"]
+        for n in range(5):
+            if pred_cgpa == n:
+                pred_cgpa = cgpa_ls[n]
         # print(str(pred_cgp) + '')
         # print(f'예상 CGPA 점수는 {pred_cgpa}점 입니다.')
         # print('{}'.format(pred_cgp))
-        st.write(f'예상 CGPA 점수는 {pred_cgpa}점 입니다.')
+        st.write(f'예상 CGPA 점수 범위는 {pred_cgpa}점 입니다.')
         
 
 
-        
 
