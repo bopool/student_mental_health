@@ -6,6 +6,7 @@ from app_ml import run_app_ml
 
 
 def main():
+    st.write('<style>div > .css-1544g2n{padding-top:3.1rem; padding-left:1.4rem;}</style>', unsafe_allow_html=True)
     img_url2 = 'img/smh_side_top.jpg'
     st.sidebar.image(img_url2)
     title = '<div style="color:#006D64; font-size:44px; font-weight:900;">Student Mental Health</div>'
